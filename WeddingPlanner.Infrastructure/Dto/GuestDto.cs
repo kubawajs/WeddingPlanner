@@ -12,7 +12,7 @@ namespace WeddingPlanner.Infrastructure.Dto
         public bool HasPair { get; set; }
         public DateTime BirthDate { get; set; }
 
-        public int Age() => DateTime.Now.Year - BirthDate.Year;
+        public int Age => DateTime.Now.Year - BirthDate.Year;
         public string FullName => $"{FirstName} {LastName}";
     }
 }

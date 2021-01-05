@@ -55,8 +55,7 @@ TODO
 
 ### Logging
 
-[NOT IMPLEMENTED YET]
-TODO
+Logging  was implemented using the [log4net](https://logging.apache.org/log4net/) library. Log data is saved to the _main.log_ file (_.\WeddingPlanner.Api\bin\Debug\netcoreapp5\main.log_)
 
 ## Testing
 
