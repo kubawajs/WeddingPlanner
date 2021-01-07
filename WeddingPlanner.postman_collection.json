@@ -1,0 +1,115 @@
+{
+	"info": {
+		"_postman_id": "1baf56a5-bd15-4e29-a523-693d0a7de481",
+		"name": "WeddingPlanner",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all guests",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{weddingPlannerUrl}}/api/guests",
+					"host": [
+						"{{weddingPlannerUrl}}"
+					],
+					"path": [
+						"api",
+						"guests"
+					]
+				},
+				"description": "Get guests list"
+			},
+			"response": []
+		},
+		{
+			"name": "Create guest",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 0,\r\n  \"firstName\": \"Adam\",\r\n  \"lastName\": \"Nowak\",\r\n  \"isChild\": false,\r\n  \"hasPair\": true,\r\n  \"birthDate\": \"1998-10-05T20:09:31.666Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{weddingPlannerUrl}}/api/guests/create",
+					"host": [
+						"{{weddingPlannerUrl}}"
+					],
+					"path": [
+						"api",
+						"guests",
+						"create"
+					]
+				},
+				"description": "Creates new guest"
+			},
+			"response": []
+		},
+		{
+			"name": "Register user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"TestUser\",\r\n  \"email\": \"user@example.com\",\r\n  \"password\": \"TestUser123$\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{weddingPlannerUrl}}/api/authentication/register",
+					"host": [
+						"{{weddingPlannerUrl}}"
+					],
+					"path": [
+						"api",
+						"authentication",
+						"register"
+					]
+				},
+				"description": "Register user"
+			},
+			"response": []
+		},
+		{
+			"name": "Login user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"TestUser\",\r\n  \"password\": \"TestUser123$\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{weddingPlannerUrl}}/api/authentication/login",
+					"host": [
+						"{{weddingPlannerUrl}}"
+					],
+					"path": [
+						"api",
+						"authentication",
+						"login"
+					]
+				},
+				"description": "Login user endpoint"
+			},
+			"response": []
+		}
+	]
+}

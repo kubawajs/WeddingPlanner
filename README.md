@@ -19,11 +19,70 @@ WeddingPlanner API and application.
 
 ## API
 
-API Documentation was created using the [Swagger](https://aspnetcore.readthedocs.io/en/stable/tutorials/web-api-help-pages-using-swagger.html). It is available at url: _localhost/swagger_
+API Documentation was created using the [Swagger](https://aspnetcore.readthedocs.io/en/stable/tutorials/web-api-help-pages-using-swagger.html). It is available at url: _{api_url}/swagger_
+
+Postman collection with API request examples is available in the repo root - [WeddingPlanner.postman_collection](WeddingPlanner.postman_collection.json).
 
 ### Authentication
 
-[NOT IMPLEMENTED YET]
+API uses JWT for authentication.
+
+#### Register
+
+**Endpoint:**
+
+```
+{api_url}/api/authentication/register
+```
+
+Request body:
+
+```json
+{
+  "username": "string",
+  "password": "string"
+}
+```
+
+Response body:
+```json
+{
+  "result": true,
+  "status": "Error",
+  "message": "string",
+  "username": "string",
+  "token": "string",
+  "expiration": "2021-01-07T23:07:42.810Z"
+}
+```
+
+#### Login
+
+**Endpoint:**
+
+```
+{api_url}/api/authentication/login
+```
+
+Request body:
+
+```json
+{
+  "username": "string",
+  "email": "user@example.com",
+  "password": "string"
+}
+```
+
+Response body:
+```json
+{
+  "result": true,
+  "status": "Error",
+  "message": "string",
+  "username": "string"
+}
+```
 
 ### Key Features
 

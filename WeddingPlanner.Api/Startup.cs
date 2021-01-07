@@ -1,18 +1,21 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
+using System.Text.Json.Serialization;
+using WeddingPlanner.Infrastructure;
 using WeddingPlanner.Infrastructure.Data;
 using WeddingPlanner.Infrastructure.Mapping;
-using WeddingPlanner.Infrastructure.Repository;
-using WeddingPlanner.Infrastructure.Repository.Abstractions;
-using WeddingPlanner.Infrastructure.Services;
-using WeddingPlanner.Infrastructure.Services.Abstractions;
+using WeddingPlanner.Infrastructure.Models;
 
 namespace WeddingPlanner.Api
 {
@@ -28,7 +31,10 @@ namespace WeddingPlanner.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(opts =>
+            {
+                opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            });
 
             // Swagger
             services.AddSwaggerGen(c =>
@@ -36,24 +42,40 @@ namespace WeddingPlanner.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WeddingPlanner.Api", Version = "v1" });
             });
 
-            // TODO: move to Infra project
-            // Services
-            services.AddScoped<IGuestService, GuestService>();
-
-            // Repositories
-            services.AddScoped<IGuestRepository, GuestRepository>();
-
             // Auto Mapper Configurations
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingProfile());
             });
-
             IMapper mapper = mapperConfig.CreateMapper();
-            services.AddSingleton(mapper);
 
             // Entity Framework
             services.AddDbContext<WeddingPlannerDbContext>(opt => opt.UseInMemoryDatabase("Wedding Planner"));
+
+            // For Identity  
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<WeddingPlannerDbContext>()
+                .AddDefaultTokenProviders();
+
+            // Authentication
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(x =>
+                {
+                    x.RequireHttpsMetadata = false;
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration["Jwt:Issuer"],
+                        ValidAudience = Configuration["Jwt:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:SecretKey"]))
+                    };
+                });
+
+            // Add WeddingPlanner.Infrastructure
+            services.AddWeddingPlannerInfrastructure(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
