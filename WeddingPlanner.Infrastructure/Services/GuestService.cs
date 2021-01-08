@@ -30,7 +30,7 @@ namespace WeddingPlanner.Infrastructure.Services
 
         public async Task<IEnumerable<GuestDto>> GetGuestsAsync()
         {
-            var guests = await _guestRepository.GetGuestsAsyns();
+            var guests = await _guestRepository.GetGuestsAsync();
             var guestDtos = _mapper.Map<IEnumerable<GuestDto>>(guests);
             return guestDtos;
         }

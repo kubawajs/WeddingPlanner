@@ -23,7 +23,7 @@ namespace WeddingPlanner.Infrastructure.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Guest>> GetGuestsAsyns()
+        public async Task<IEnumerable<Guest>> GetGuestsAsync()
         {
             return await _context.Guests.ToListAsync();
         }

@@ -6,7 +6,7 @@ namespace WeddingPlanner.Infrastructure.Repository.Abstractions
 {
     public interface IGuestRepository
     {
-        Task<IEnumerable<Guest>> GetGuestsAsyns();
+        Task<IEnumerable<Guest>> GetGuestsAsync();
         Task CreateGuestAsync(Guest guestDto);
     }
 }
