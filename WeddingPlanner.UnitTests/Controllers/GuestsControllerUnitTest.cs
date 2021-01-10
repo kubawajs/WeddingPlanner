@@ -85,7 +85,7 @@ namespace WeddingPlanner.Tests.Controllers
                 Items = mockGuests,
                 Count = mockGuests.Count
             };
-            mockService.Setup(repo => repo.GetGuestsAsync()).ReturnsAsync(mockResponse);
+            mockService.Setup(repo => repo.GetGuestsByAgeAsync(ageParam)).ReturnsAsync(mockResponse);
             var controller = new GuestsController(mockLogger.Object, mockService.Object);
 
             // Act

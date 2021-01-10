@@ -29,14 +29,20 @@ namespace WeddingPlanner.Api.Controllers
             try
             {
                 GuestListResponse response;
-                if (age.HasValue)
+                if(age == null)
+                {
+                    response = await _guestService.GetGuestsAsync();
+                }
+                else if(age.HasValue && age.Value >= 0)
                 {
                     response = await _guestService.GetGuestsByAgeAsync(age.Value);
                 }
                 else
                 {
-                    response = await _guestService.GetGuestsAsync();
+                    _logger.LogInformation($"Cannot retrieve guest list - wrong ageParam value: {age}");
+                    return BadRequest();
                 }
+
                 _logger.LogInformation("Guests list successfully retrieved.");
                 return Ok(response);
             }

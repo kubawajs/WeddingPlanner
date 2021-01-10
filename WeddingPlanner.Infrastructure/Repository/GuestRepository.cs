@@ -29,15 +29,17 @@ namespace WeddingPlanner.Infrastructure.Repository
             return await _context.Guests.ToListAsync();
         }
 
-        public async Task<IEnumerable<Guest>> GetGuestsByAge(int age)
+        public async Task<IEnumerable<Guest>> GetGuestsByAgeAsync(int age)
         {
-            var cutOffDate = DateTime.Now.AddYears(-age);
-            return await _context.Guests.Where(x => x.BirthDate <= cutOffDate).ToListAsync();
+            return await _context.Guests.Where(x => x.Age >= age || !x.IsChild).ToListAsync();
         }
 
-        public async Task<int> GetGuestsCount()
+        public async Task<int> GetAllGuestsCountAsync(int age = 0)
         {
-            return await _context.Guests.CountAsync();
+            var guestsCount = _context.Guests.Where(x => x.Age >= age || !x.IsChild).Count();
+            var partnersCount = _context.Guests.Where(x => x.HasPair == true).Count();
+
+            return await Task.FromResult(partnersCount + guestsCount);
         }
     }
 }

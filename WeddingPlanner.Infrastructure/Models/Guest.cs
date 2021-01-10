@@ -9,6 +9,6 @@ namespace WeddingPlanner.Infrastructure.Models
         public string LastName { get; set; }
         public bool IsChild { get; set; }
         public bool HasPair { get; set; }
-        public DateTime BirthDate { get; set; }
+        public int Age { get; set; }
     }
 }

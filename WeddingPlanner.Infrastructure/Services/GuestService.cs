@@ -43,7 +43,7 @@ namespace WeddingPlanner.Infrastructure.Services
 
         public async Task<GuestListResponse> GetGuestsByAgeAsync(int age)
         {
-            var guests = await _guestRepository.GetGuestsByAge(age);
+            var guests = await _guestRepository.GetGuestsByAgeAsync(age);
             if (guests == null)
             {
                 return new GuestListResponse(BaseApiResponse.CreateErrorResponse($"Cannot retrieve guests list for given age {age}."));

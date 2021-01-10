@@ -20,9 +20,9 @@ namespace WeddingPlanner.Tests.Services
     {
         private IEnumerable<Guest> _guests = new List<Guest>(new Guest[]
         {
-            new Guest { FirstName = "Tom", LastName = "Holland", BirthDate = DateTime.Now.AddYears(-30) },
-            new Guest { FirstName = "Sarah", LastName = "Connor", BirthDate = DateTime.Now.AddYears(-4) },
-            new Guest { FirstName = "Robert", LastName = "Kubica", BirthDate = DateTime.Now.AddYears(-4).AddDays(1) }
+            new Guest { FirstName = "Tom", LastName = "Holland", Age = 30 },
+            new Guest { FirstName = "Sarah", LastName = "Connor", Age = 3 },
+            new Guest { FirstName = "Robert", LastName = "Kubica", Age = 4 }
         });
 
         [Fact]
