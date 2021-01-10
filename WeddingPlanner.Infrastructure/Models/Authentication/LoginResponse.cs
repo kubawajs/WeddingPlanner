@@ -1,4 +1,5 @@
 ﻿using System;
+using WeddingPlanner.Infrastructure.Models.Abstractions;
 
 namespace WeddingPlanner.Infrastructure.Models.Authentication
 {

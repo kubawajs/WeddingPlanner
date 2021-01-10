@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using WeddingPlanner.Infrastructure.Dto;
+using WeddingPlanner.Infrastructure.Models;
 using WeddingPlanner.Infrastructure.Services.Abstractions;
 
 namespace WeddingPlanner.Api.Controllers
@@ -22,15 +22,23 @@ namespace WeddingPlanner.Api.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<GuestDto>), 200)]
-        [ProducesResponseType(400)]
-        public async Task<IActionResult> Index()
+        [ProducesResponseType(typeof(GuestListResponse), 200)]
+        [ProducesResponseType(typeof(GuestListResponse), 400)]
+        public async Task<IActionResult> Index([FromQuery] int? age = null)
         {
             try
             {
-                var guests = await _guestService.GetGuestsAsync();
+                GuestListResponse response;
+                if (age.HasValue)
+                {
+                    response = await _guestService.GetGuestsByAgeAsync(age.Value);
+                }
+                else
+                {
+                    response = await _guestService.GetGuestsAsync();
+                }
                 _logger.LogInformation("Guests list successfully retrieved.");
-                return Ok(guests);
+                return Ok(response);
             }
             catch(Exception ex)
             {

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WeddingPlanner.Api.Controllers;
 using WeddingPlanner.Infrastructure.Dto;
+using WeddingPlanner.Infrastructure.Models;
 using WeddingPlanner.Infrastructure.Services.Abstractions;
 using Xunit;
 
@@ -25,7 +26,12 @@ namespace WeddingPlanner.Tests.Controllers
                 new GuestDto(),
                 new GuestDto()
             });
-            mockService.Setup(repo => repo.GetGuestsAsync()).ReturnsAsync(mockGuests);
+            var mockResponse = new GuestListResponse
+            {
+                Items = mockGuests,
+                Count = mockGuests.Count
+            };
+            mockService.Setup(repo => repo.GetGuestsAsync()).ReturnsAsync(mockResponse);
             var controller = new GuestsController(mockLogger.Object, mockService.Object);
 
             // Act
@@ -36,12 +42,13 @@ namespace WeddingPlanner.Tests.Controllers
 
             var okObjectResult = (OkObjectResult) result;
             okObjectResult.Value.Should().NotBeNull();
-            okObjectResult.Value.Should().BeAssignableTo<IEnumerable<GuestDto>>();
+            okObjectResult.Value.Should().BeOfType<GuestListResponse>();
 
-            var guestDtosObject = (IEnumerable<GuestDto>) okObjectResult.Value;
-            guestDtosObject.Should().NotBeNull();
-            guestDtosObject.Should().NotBeEmpty();
-            guestDtosObject.Should().HaveCount(3);
+            var guestDtosObject = (GuestListResponse) okObjectResult.Value;
+            guestDtosObject.Items.Should().NotBeNull();
+            guestDtosObject.Items.Should().NotBeEmpty();
+            guestDtosObject.Items.Should().HaveCount(3);
+            guestDtosObject.Count.Should().Be(3);
         }
 
         [Fact]
@@ -55,6 +62,61 @@ namespace WeddingPlanner.Tests.Controllers
 
             // Act
             var result = await controller.Index();
+
+            // Assert
+            result.Should().BeOfType<BadRequestResult>();
+        }
+
+        [Fact]
+        public async Task Index_ReturnsOkObjectResult_WithListOfGuests_ForGivenAgeParam()
+        {
+            // Arrange
+            int ageParam = 3;
+            var mockLogger = new Mock<ILogger<GuestsController>>();
+            var mockService = new Mock<IGuestService>();
+            var mockGuests = new List<GuestDto>(new GuestDto[]
+            {
+                new GuestDto(),
+                new GuestDto(),
+                new GuestDto()
+            });
+            var mockResponse = new GuestListResponse
+            {
+                Items = mockGuests,
+                Count = mockGuests.Count
+            };
+            mockService.Setup(repo => repo.GetGuestsAsync()).ReturnsAsync(mockResponse);
+            var controller = new GuestsController(mockLogger.Object, mockService.Object);
+
+            // Act
+            var result = await controller.Index(ageParam);
+
+            // Assert
+            result.Should().BeOfType<OkObjectResult>();
+
+            var okObjectResult = (OkObjectResult)result;
+            okObjectResult.Value.Should().NotBeNull();
+            okObjectResult.Value.Should().BeOfType<GuestListResponse>();
+
+            var guestDtosObject = (GuestListResponse)okObjectResult.Value;
+            guestDtosObject.Items.Should().NotBeNull();
+            guestDtosObject.Items.Should().NotBeEmpty();
+            guestDtosObject.Items.Should().HaveCount(3);
+            guestDtosObject.Count.Should().Be(3);
+        }
+
+        [Fact]
+        public async Task Index_ReturnsBadRequest_IfAgeParamLowerThanZero()
+        {
+            // Arrange
+            int ageParam = -1;
+            var mockLogger = new Mock<ILogger<GuestsController>>();
+            var mockService = new Mock<IGuestService>();
+            mockService.Setup(repo => repo.GetGuestsAsync()).ReturnsAsync(new GuestListResponse());
+            var controller = new GuestsController(mockLogger.Object, mockService.Object);
+
+            // Act
+            var result = await controller.Index(ageParam);
 
             // Assert
             result.Should().BeOfType<BadRequestResult>();

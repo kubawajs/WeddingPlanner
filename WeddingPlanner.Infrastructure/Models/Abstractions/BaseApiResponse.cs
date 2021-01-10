@@ -1,4 +1,4 @@
-﻿namespace WeddingPlanner.Infrastructure.Models
+﻿namespace WeddingPlanner.Infrastructure.Models.Abstractions
 {
     public class BaseApiResponse
     {

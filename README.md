@@ -13,9 +13,10 @@ WeddingPlanner API and application.
 
 ## Built With
 
-* .NET 5
+* .NET 5.0
 * Swagger
 * Automapper
+* Entity Framework Core
 
 ## API
 
@@ -118,7 +119,13 @@ Logging  was implemented using the [log4net](https://logging.apache.org/log4net/
 
 ## Testing
 
-TODO
+**WeddingPlanner.Tests** - dedicated project for unit & integration tests.
+
+Technologies used:
+
+* xunit
+* FluentAssertions
+* Moq
 
 ## Author
 

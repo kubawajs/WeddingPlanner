@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using WeddingPlanner.Infrastructure.Data;
 using WeddingPlanner.Infrastructure.Models;
@@ -18,7 +20,6 @@ namespace WeddingPlanner.Infrastructure.Repository
 
         public async Task CreateGuestAsync(Guest guest)
         {
-            // TODO: consider how to assign Id automatically
             _context.Guests.Add(guest);
             await _context.SaveChangesAsync();
         }
@@ -26,6 +27,17 @@ namespace WeddingPlanner.Infrastructure.Repository
         public async Task<IEnumerable<Guest>> GetGuestsAsync()
         {
             return await _context.Guests.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Guest>> GetGuestsByAge(int age)
+        {
+            var cutOffDate = DateTime.Now.AddYears(-age);
+            return await _context.Guests.Where(x => x.BirthDate <= cutOffDate).ToListAsync();
+        }
+
+        public async Task<int> GetGuestsCount()
+        {
+            return await _context.Guests.CountAsync();
         }
     }
 }

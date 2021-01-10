@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using WeddingPlanner.Infrastructure.Models;
+using WeddingPlanner.Infrastructure.Models.Abstractions;
 using Xunit;
 
 namespace WeddingPlanner.Tests.Models

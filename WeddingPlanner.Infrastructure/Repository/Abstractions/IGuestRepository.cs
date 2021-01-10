@@ -8,5 +8,7 @@ namespace WeddingPlanner.Infrastructure.Repository.Abstractions
     {
         Task<IEnumerable<Guest>> GetGuestsAsync();
         Task CreateGuestAsync(Guest guestDto);
+        Task<int> GetGuestsCount();
+        Task<IEnumerable<Guest>> GetGuestsByAge(int age);
     }
 }

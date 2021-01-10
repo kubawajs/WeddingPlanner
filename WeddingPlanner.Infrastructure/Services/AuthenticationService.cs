@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WeddingPlanner.Infrastructure.Extensions;
 using WeddingPlanner.Infrastructure.Models;
+using WeddingPlanner.Infrastructure.Models.Abstractions;
 using WeddingPlanner.Infrastructure.Models.Authentication;
 using WeddingPlanner.Infrastructure.Services.Abstractions;
 

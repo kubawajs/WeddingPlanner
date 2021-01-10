@@ -1,4 +1,6 @@
-﻿namespace WeddingPlanner.Infrastructure.Models.Authentication
+﻿using WeddingPlanner.Infrastructure.Models.Abstractions;
+
+namespace WeddingPlanner.Infrastructure.Models.Authentication
 {
     public class RegisterResponse : BaseApiResponse
     {
