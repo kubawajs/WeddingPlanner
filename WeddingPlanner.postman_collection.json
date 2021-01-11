@@ -6,110 +6,227 @@
 	},
 	"item": [
 		{
-			"name": "Get all guests",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{weddingPlannerUrl}}/api/guests",
-					"host": [
-						"{{weddingPlannerUrl}}"
-					],
-					"path": [
-						"api",
-						"guests"
-					]
+			"name": "Guests",
+			"item": [
+				{
+					"name": "Get all guests",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{weddingPlannerUrl}}/api/guests",
+							"host": [
+								"{{weddingPlannerUrl}}"
+							],
+							"path": [
+								"api",
+								"guests"
+							]
+						},
+						"description": "Get guests list"
+					},
+					"response": []
 				},
-				"description": "Get guests list"
-			},
-			"response": []
+				{
+					"name": "Create guest",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 0,\r\n  \"firstName\": \"Adam\",\r\n  \"lastName\": \"Nowak\",\r\n  \"isChild\": false,\r\n  \"hasPair\": true,\r\n  \"age\": 16\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{weddingPlannerUrl}}/api/guests/create",
+							"host": [
+								"{{weddingPlannerUrl}}"
+							],
+							"path": [
+								"api",
+								"guests",
+								"create"
+							]
+						},
+						"description": "Creates new guest"
+					},
+					"response": []
+				},
+				{
+					"name": "Get guests by age",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{weddingPlannerUrl}}/api/guests?age={{ageParam}}",
+							"host": [
+								"{{weddingPlannerUrl}}"
+							],
+							"path": [
+								"api",
+								"guests"
+							],
+							"query": [
+								{
+									"key": "age",
+									"value": "{{ageParam}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
-			"name": "Create guest",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"id\": 0,\r\n  \"firstName\": \"Adam\",\r\n  \"lastName\": \"Nowak\",\r\n  \"isChild\": false,\r\n  \"hasPair\": true,\r\n  \"birthDate\": \"1998-10-05T20:09:31.666Z\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"TestUser\",\r\n  \"email\": \"user@example.com\",\r\n  \"password\": \"TestUser123$\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{weddingPlannerUrl}}/api/authentication/register",
+							"host": [
+								"{{weddingPlannerUrl}}"
+							],
+							"path": [
+								"api",
+								"authentication",
+								"register"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{weddingPlannerUrl}}/api/guests/create",
-					"host": [
-						"{{weddingPlannerUrl}}"
-					],
-					"path": [
-						"api",
-						"guests",
-						"create"
-					]
-				},
-				"description": "Creates new guest"
-			},
-			"response": []
+				{
+					"name": "Login user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"TestUser\",\r\n  \"password\": \"TestUser123$\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{weddingPlannerUrl}}/api/authentication/login",
+							"host": [
+								"{{weddingPlannerUrl}}"
+							],
+							"path": [
+								"api",
+								"authentication",
+								"login"
+							]
+						},
+						"description": "Login user endpoint"
+					},
+					"response": []
+				}
+			]
 		},
 		{
-			"name": "Register user",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"username\": \"TestUser\",\r\n  \"email\": \"user@example.com\",\r\n  \"password\": \"TestUser123$\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+			"name": "WeddingHall",
+			"item": [
+				{
+					"name": "Create wedding hall summary",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"childAgeFrom\": 5,\r\n    \"childAgeTo\": 10,\r\n    \"menuPerPerson\": {\r\n        \"price\": 168.15,\r\n        \"label\": \"Price (adult)\",\r\n        \"description\": \"Price for adult guest.\"\r\n    },\r\n    \"additionalCosts\": [\r\n        {\r\n            \"price\": 10,\r\n            \"label\": \"Drinks\",\r\n            \"description\": \"Price for drinks for one person.\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{weddingPlannerUrl}}/api/weddinghall/create",
+							"host": [
+								"{{weddingPlannerUrl}}"
+							],
+							"path": [
+								"api",
+								"weddinghall",
+								"create"
+							]
+						},
+						"description": "Creates wedding hall summary object."
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{weddingPlannerUrl}}/api/authentication/register",
-					"host": [
-						"{{weddingPlannerUrl}}"
-					],
-					"path": [
-						"api",
-						"authentication",
-						"register"
-					]
+				{
+					"name": "Get wedding hall summary",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{weddingPlannerUrl}}/api/weddinghall/{{id}}",
+							"host": [
+								"{{weddingPlannerUrl}}"
+							],
+							"path": [
+								"api",
+								"weddinghall",
+								"{{id}}"
+							]
+						},
+						"description": "Gets wedding hall summary object by id."
+					},
+					"response": []
 				},
-				"description": "Register user"
-			},
-			"response": []
-		},
-		{
-			"name": "Login user",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"username\": \"TestUser\",\r\n  \"password\": \"TestUser123$\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{weddingPlannerUrl}}/api/authentication/login",
-					"host": [
-						"{{weddingPlannerUrl}}"
-					],
-					"path": [
-						"api",
-						"authentication",
-						"login"
-					]
-				},
-				"description": "Login user endpoint"
-			},
-			"response": []
+				{
+					"name": "Update wedding hall summary",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"childAgeFrom\": 5,\r\n    \"childAgeTo\": 10,\r\n    \"menuPerPerson\": {\r\n        \"price\": 168.15,\r\n        \"label\": \"Price (adult)\",\r\n        \"description\": \"Price for adult guest.\"\r\n    },\r\n    \"additionalCosts\": [\r\n        {\r\n            \"price\": 10,\r\n            \"label\": \"Drinks\",\r\n            \"description\": \"Price for drinks for one person.\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{weddingPlannerUrl}}/api/weddinghall/edit",
+							"host": [
+								"{{weddingPlannerUrl}}"
+							],
+							"path": [
+								"api",
+								"weddinghall",
+								"edit"
+							]
+						},
+						"description": "Updates wedding hall summary."
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

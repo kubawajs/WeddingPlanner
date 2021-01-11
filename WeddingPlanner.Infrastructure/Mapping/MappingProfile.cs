@@ -10,6 +10,8 @@ namespace WeddingPlanner.Infrastructure.Mapping
         {
             CreateMap<Guest, GuestDto>();
             CreateMap<GuestDto, Guest>();
+            CreateMap<WeddingHall, WeddingHallDto>();
+            CreateMap<WeddingHallDto, WeddingHall>();
         }
     }
 }

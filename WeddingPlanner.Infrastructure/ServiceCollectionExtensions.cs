@@ -17,9 +17,11 @@ namespace WeddingPlanner.Infrastructure
             // Services
             services.AddScoped<IGuestService, GuestService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IWeddingHallService, WeddingHallService>();
 
             // Repositories
             services.AddScoped<IGuestRepository, GuestRepository>();
+            services.AddScoped<IWeddingHallRespository, WeddingHallRepository>();
 
             return services;
         }

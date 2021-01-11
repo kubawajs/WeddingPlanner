@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -36,10 +35,15 @@ namespace WeddingPlanner.Infrastructure.Repository
 
         public async Task<int> GetAllGuestsCountAsync(int age = 0)
         {
-            var guestsCount = _context.Guests.Where(x => x.Age >= age || !x.IsChild).Count();
-            var partnersCount = _context.Guests.Where(x => x.HasPair == true).Count();
+            var guestsCount = await _context.Guests.Where(x => x.Age > age || !x.IsChild).CountAsync();
+            var partnersCount = await _context.Guests.Where(x => x.HasPair == true && !x.IsChild).CountAsync();
 
             return await Task.FromResult(partnersCount + guestsCount);
+        }
+
+        public async Task<int> GetChildGuestsCountAsync(int childAgeFrom, int childAgeTo)
+        {
+            return await _context.Guests.Where(x => x.Age >= childAgeFrom && x.Age <= childAgeTo).CountAsync();
         }
     }
 }
