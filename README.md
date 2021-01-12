@@ -28,6 +28,8 @@ Postman collection with API request examples is available in the repo root - [We
 
 API uses JWT for authentication.
 
+Roles - TODO
+
 #### Register
 
 **Endpoint:**
@@ -89,11 +91,15 @@ Response body:
 
 #### Guests
 
-TODO
+* Get all guests
+* Create new guest
+* Get guests by age param
 
 #### Wedding Hall
 
-TODO
+* Get wedding hall by id
+* Create new wedding hall
+* Edit wedding hall
 
 #### Wedding Services
 
@@ -116,6 +122,10 @@ TODO
 ### Logging
 
 Logging  was implemented using the [log4net](https://logging.apache.org/log4net/) library. Log data is saved to the _main.log_ file (_.\WeddingPlanner.Api\bin\Debug\netcoreapp5\main.log_)
+
+## Data storage
+
+MS SQL Server - TODO
 
 ## Testing
 
