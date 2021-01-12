@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using WeddingPlanner.Infrastructure.Data;
 using WeddingPlanner.Infrastructure.Dto;
@@ -16,13 +15,13 @@ using Xunit;
 
 namespace WeddingPlanner.Tests.Services
 {
-    public class GuestServiceIntegrationTest
+    public class GuestIntegrationTest
     {
         private IEnumerable<Guest> _guests = new List<Guest>(new Guest[]
         {
             new Guest { FirstName = "Tom", LastName = "Holland", Age = 30 },
-            new Guest { FirstName = "Sarah", LastName = "Connor", Age = 3 },
-            new Guest { FirstName = "Robert", LastName = "Kubica", Age = 4 }
+            new Guest { FirstName = "Sarah", LastName = "Connor", Age = 3, IsChild = true },
+            new Guest { FirstName = "Robert", LastName = "Kubica", Age = 4, IsChild = true }
         });
 
         [Fact]
@@ -55,7 +54,7 @@ namespace WeddingPlanner.Tests.Services
         }
 
         [Fact]
-        public async Task GetGuestsAsync_ReturnsGuestDtoList_IfExistsInRepo()
+        public async Task GetGuestsAsync_ReturnsGuestListResponse_IfExistsInRepo()
         {
             // Arrange
             var mapperConfig = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
@@ -116,7 +115,7 @@ namespace WeddingPlanner.Tests.Services
         }
 
         [Fact]
-        public async Task GetGuestsByAgeAsync_ReturnsEmptyList_IfNoGuestsAboveParam()
+        public async Task GetGuestsByAgeAsync_ReturnsAdultPeople_IfNoGuestsAboveParam()
         {
             // Arrange
             int ageParam = 99;
@@ -133,7 +132,11 @@ namespace WeddingPlanner.Tests.Services
             result.Should().NotBeNull();
             result.Should().BeOfType<GuestListResponse>();
             result.Items.Should().NotBeNull();
-            result.Items.Should().BeEmpty();
+            result.Items.Should().HaveCount(1);
+            result.Items.First().FirstName.Should().Be("Tom");
+            result.Items.First().LastName.Should().Be("Holland");
+            result.Items.First().Age.Should().Be(30);
+
         }
 
         private async Task<DbContextOptions<WeddingPlannerDbContext>> SetupTestDatabaseAsync(IEnumerable<Guest> items)

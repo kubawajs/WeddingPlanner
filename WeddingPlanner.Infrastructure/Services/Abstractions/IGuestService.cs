@@ -7,7 +7,7 @@ namespace WeddingPlanner.Infrastructure.Services.Abstractions
     public interface IGuestService
     {
         Task<GuestListResponse> GetGuestsAsync();
-        Task CreateGuestAsync(GuestDto guestDto);
+        Task<GuestResponse> CreateGuestAsync(GuestDto guestDto);
         Task<GuestListResponse> GetGuestsByAgeAsync(int age);
     }
 }

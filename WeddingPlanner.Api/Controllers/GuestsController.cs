@@ -26,37 +26,31 @@ namespace WeddingPlanner.Api.Controllers
         [ProducesResponseType(typeof(GuestListResponse), 400)]
         public async Task<IActionResult> Index([FromQuery] int? age = null)
         {
-            try
+            // TODO: refactor as for wedding hall controller
+            GuestListResponse response;
+            if (age == null)
             {
-                GuestListResponse response;
-                if(age == null)
-                {
-                    response = await _guestService.GetGuestsAsync();
-                }
-                else if(age.HasValue && age.Value >= 0)
-                {
-                    response = await _guestService.GetGuestsByAgeAsync(age.Value);
-                }
-                else
-                {
-                    _logger.LogInformation($"Cannot retrieve guest list - wrong ageParam value: {age}");
-                    return BadRequest();
-                }
+                response = await _guestService.GetGuestsAsync();
+            }
+            else
+            {
+                response = await _guestService.GetGuestsByAgeAsync(age.Value);
+            }
+            
+            if(!response.Result)
+            {
+                _logger.LogInformation($"An error occured during retrieving guests list.");
+                return BadRequest(response);
+            }
 
-                _logger.LogInformation("Guests list successfully retrieved.");
-                return Ok(response);
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError($"An error occured during retrieving guests list: {ex.Message}", ex);
-                return BadRequest();
-            }
+            _logger.LogInformation("Guests list successfully retrieved.");
+            return new OkObjectResult(response);
         }
 
         [HttpPost("create")]
-        [ProducesResponseType(typeof(GuestDto), 200)]
-        [ProducesResponseType(400)]
-        public async Task<IActionResult> Create([FromBody] GuestDto guest)
+        [ProducesResponseType(typeof(GuestResponse), 200)]
+        [ProducesResponseType(typeof(GuestResponse), 400)]
+        public async Task<IActionResult> Create([FromBody] GuestDto model)
         {
             if(!ModelState.IsValid)
             {
@@ -64,17 +58,15 @@ namespace WeddingPlanner.Api.Controllers
                 return BadRequest();
             }
 
-            try
+            var response = await _guestService.CreateGuestAsync(model);
+            if(!response.Result)
             {
-                await _guestService.CreateGuestAsync(guest);
-                _logger.LogInformation($"Guest successfully created: {guest.Id}");
-                return Ok(guest);
+                _logger.LogError($"An error occured during guest creation.");
+                return BadRequest(response);
             }
-            catch(Exception ex)
-            {
-                _logger.LogError($"An error occured during guest creation: {ex.Message}", ex);
-                return BadRequest();
-            }
+
+            _logger.LogInformation($"Guest successfully created: {response.Item.Id}");
+            return new OkObjectResult(response);
         }
     }
 }
