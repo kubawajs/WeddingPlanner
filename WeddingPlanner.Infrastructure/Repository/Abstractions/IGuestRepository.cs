@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using WeddingPlanner.Infrastructure.Models;
+using WeddingPlanner.Core.Domain;
+using WeddingPlanner.Core.Repositories;
 
 namespace WeddingPlanner.Infrastructure.Repository.Abstractions
 {
-    public interface IGuestRepository
+    public interface IGuestRepository : IRepository
     {
         Task<IEnumerable<Guest>> GetGuestsAsync();
         Task CreateGuestAsync(Guest guestDto);

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WeddingPlanner.Infrastructure.Models
+namespace WeddingPlanner.Core.Domain
 {
     public class Guest
     {

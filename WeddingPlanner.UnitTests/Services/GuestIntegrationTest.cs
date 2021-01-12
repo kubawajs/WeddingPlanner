@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WeddingPlanner.Core.Domain;
 using WeddingPlanner.Infrastructure.Data;
 using WeddingPlanner.Infrastructure.Dto;
 using WeddingPlanner.Infrastructure.Mapping;

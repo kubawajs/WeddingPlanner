@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace WeddingPlanner.Infrastructure.Models
+namespace WeddingPlanner.Core.Domain
 {
     public class WeddingHall
     {

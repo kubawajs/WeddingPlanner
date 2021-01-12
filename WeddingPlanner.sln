@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{C7E1C4A8
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeddingPlanner.Tests", "WeddingPlanner.UnitTests\WeddingPlanner.Tests.csproj", "{CAE814EA-5A1B-465F-8158-A2D0DFEAFA24}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeddingPlanner.Core", "WeddingPlanner.Core\WeddingPlanner.Core.csproj", "{E29B6BEB-2B25-4E40-997E-7676263734E7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{CAE814EA-5A1B-465F-8158-A2D0DFEAFA24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAE814EA-5A1B-465F-8158-A2D0DFEAFA24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAE814EA-5A1B-465F-8158-A2D0DFEAFA24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E29B6BEB-2B25-4E40-997E-7676263734E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E29B6BEB-2B25-4E40-997E-7676263734E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E29B6BEB-2B25-4E40-997E-7676263734E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E29B6BEB-2B25-4E40-997E-7676263734E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +45,7 @@ Global
 		{5198EE68-2471-4A28-9AC3-0ABD3CA6B930} = {E3951363-553A-4DA5-A150-EC3151E19A67}
 		{4663F821-7F0F-432E-8F5F-82D6DD42467D} = {E3951363-553A-4DA5-A150-EC3151E19A67}
 		{CAE814EA-5A1B-465F-8158-A2D0DFEAFA24} = {C7E1C4A8-6873-4BF8-BCE5-688EC1C64A9F}
+		{E29B6BEB-2B25-4E40-997E-7676263734E7} = {E3951363-553A-4DA5-A150-EC3151E19A67}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BC638275-989A-4027-BABB-DF92085C1CF9}

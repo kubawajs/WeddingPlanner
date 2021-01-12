@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using WeddingPlanner.Infrastructure.Models;
+using WeddingPlanner.Core.Domain;
 
 namespace WeddingPlanner.Infrastructure.Dto
 {

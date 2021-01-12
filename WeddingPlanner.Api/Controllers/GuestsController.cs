@@ -26,7 +26,6 @@ namespace WeddingPlanner.Api.Controllers
         [ProducesResponseType(typeof(GuestListResponse), 400)]
         public async Task<IActionResult> Index([FromQuery] int? age = null)
         {
-            // TODO: refactor as for wedding hall controller
             GuestListResponse response;
             if (age == null)
             {

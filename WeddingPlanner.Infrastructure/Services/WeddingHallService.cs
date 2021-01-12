@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using System;
 using System.Threading.Tasks;
+using WeddingPlanner.Core.Domain;
 using WeddingPlanner.Infrastructure.Dto;
 using WeddingPlanner.Infrastructure.Models;
 using WeddingPlanner.Infrastructure.Models.Abstractions;

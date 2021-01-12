@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using WeddingPlanner.Core.Domain;
 using WeddingPlanner.Infrastructure.Models;
 
 namespace WeddingPlanner.Infrastructure.Data
