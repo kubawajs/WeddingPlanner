@@ -1,4 +1,4 @@
-using AutoMapper;
+using Autofac;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,9 +12,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json.Serialization;
-using WeddingPlanner.Infrastructure;
 using WeddingPlanner.Infrastructure.Data;
-using WeddingPlanner.Infrastructure.Mapping;
+using WeddingPlanner.Infrastructure.IoC;
 using WeddingPlanner.Infrastructure.Models;
 
 namespace WeddingPlanner.Api
@@ -42,13 +41,6 @@ namespace WeddingPlanner.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WeddingPlanner.Api", Version = "v1" });
             });
 
-            // Auto Mapper Configurations
-            var mapperConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new MappingProfile());
-            });
-            IMapper mapper = mapperConfig.CreateMapper();
-
             // Entity Framework
             services.AddDbContext<WeddingPlannerDbContext>(opt => opt.UseInMemoryDatabase("Wedding Planner"));
 
@@ -73,9 +65,6 @@ namespace WeddingPlanner.Api
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:SecretKey"]))
                     };
                 });
-
-            // Add WeddingPlanner.Infrastructure
-            services.AddWeddingPlannerInfrastructure(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -100,6 +89,12 @@ namespace WeddingPlanner.Api
             {
                 endpoints.MapControllers();
             });
+        }
+
+        // Register Autofac
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterModule(new ContainerModule());
         }
     }
 }
