@@ -16,6 +16,7 @@ WeddingPlanner API and application.
 * .NET 5.0
 * Swagger
 * Automapper
+* Autofac
 * Entity Framework Core
 
 ## API
