@@ -16,82 +16,84 @@ namespace WeddingPlanner.Infrastructure.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private readonly IConfiguration _config;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<User> _userManager;
+        private readonly IJwtService _jwtService;
 
         public AuthenticationService(
-            IConfiguration config,
             RoleManager<IdentityRole> roleManager,
-            UserManager<User> userManager)
+            UserManager<User> userManager,
+            IJwtService jwtService)
         {
-            _config = config;
             _roleManager = roleManager;
             _userManager = userManager;
+            _jwtService = jwtService;
         }
 
-        public async Task<LoginResponse> Authenticate(LoginModel loginModel)
+        public async Task<LoginResponse> AuthenticateAsync(LoginModel loginModel)
         {
-            var user = await _userManager.FindByNameAsync(loginModel.Username);  
-            if (user != null && await _userManager.CheckPasswordAsync(user, loginModel.Password))  
-            {  
-                // TODO: roles
-                // var userRoles = await _userManager.GetRolesAsync(user);
+            if(loginModel == null)
+            {
+                return new LoginResponse(BaseApiResponse.CreateErrorResponse("LoginModel cannot be null."));
+            }
 
-                var token = GenerateJwtToken(user);
-                var response = new LoginResponse(BaseApiResponse.CreateSuccessResponse("User authenticated successfully!"))
+            try
+            {
+                var user = await _userManager.FindByNameAsync(loginModel.Username);
+                if (user != null && await _userManager.CheckPasswordAsync(user, loginModel.Password))
                 {
-                    Token = new JwtSecurityTokenHandler().WriteToken(token),
-                    Username = user.UserName,
-                    Expiration = token.ValidTo
-                };
+                    // TODO: roles
+                    // var userRoles = await _userManager.GetRolesAsync(user);
 
+                    var token = _jwtService.GenerateJwtToken(user);
+                    var response = new LoginResponse(BaseApiResponse.CreateSuccessResponse("User authenticated successfully!"))
+                    {
+                        Token = new JwtSecurityTokenHandler().WriteToken(token),
+                        Username = user.UserName,
+                        Expiration = token.ValidTo
+                    };
+
+                    return response;
+                }
+
+                return new LoginResponse(BaseApiResponse.CreateErrorResponse("User not authenticated."));
+            }
+            catch (Exception ex)
+            {
+                return new LoginResponse(BaseApiResponse.CreateErrorResponse(
+                    $"An error occured during user authentication: {ex.Message}"));
+            }
+        }
+
+        public async Task<RegisterResponse> RegisterAsync(RegisterModel registerModel)
+        {
+            try
+            {
+                var userExists = await _userManager.FindByNameAsync(registerModel.Username);
+                if (userExists != null)
+                {
+                    return new RegisterResponse(BaseApiResponse.CreateErrorResponse($"User already exists!"));
+                }
+
+                var user = new User(registerModel);
+                var result = await _userManager.CreateAsync(user, registerModel.Password);
+
+                if (!result.Succeeded)
+                {
+                    return new RegisterResponse(BaseApiResponse.CreateErrorResponse($"User creation failed: {result.Errors.GetErrorsAsString()}"));
+                }
+
+                var response = new RegisterResponse(BaseApiResponse.CreateSuccessResponse("User created successfully!"))
+                {
+                    Username = registerModel.Username
+                };
                 return response;
             }
-
-            return new LoginResponse(BaseApiResponse.CreateErrorResponse("User not authenticated."));
-        }
-
-        public async Task<RegisterResponse> Register(RegisterModel registerModel)
-        {
-            var userExists = await _userManager.FindByNameAsync(registerModel.Username);
-            if (userExists != null)
+            catch (Exception ex)
             {
-                return new RegisterResponse(BaseApiResponse.CreateErrorResponse($"User already exists!"));
+                return new RegisterResponse(BaseApiResponse.CreateErrorResponse(
+                    $"An error occured during user registration: {ex.Message}"));
             }
-
-            var user = new User(registerModel);
-            var result = await _userManager.CreateAsync(user, registerModel.Password);
-
-            if (!result.Succeeded)
-            {
-                return new RegisterResponse(BaseApiResponse.CreateErrorResponse($"User creation failed: {result.Errors.GetErrorsAsString()}"));
-            }
-
-            var response = new RegisterResponse(BaseApiResponse.CreateSuccessResponse("User created successfully!"))
-            {
-                Username = registerModel.Username
-            };
-            return response;
-        }
-
-        private JwtSecurityToken GenerateJwtToken(User userInfo)
-        {
-            // TODO: to constants
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:SecretKey"]));
-            var token = new JwtSecurityToken(
-                issuer: _config["Jwt:Issuer"],
-                audience: _config["Jwt:Audience"],
-                claims: new[]
-                {
-                    new Claim(JwtRegisteredClaimNames.Sub, userInfo.UserName),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-                },
-                expires: DateTime.Now.AddDays(10),
-                signingCredentials: new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256)
-            );
-
-            return token;
         }
     }
 }

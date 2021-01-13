@@ -6,7 +6,7 @@ namespace WeddingPlanner.Infrastructure.Services.Abstractions
 {
     public interface IAuthenticationService : IService
     {
-        Task<LoginResponse> Authenticate(LoginModel loginModel);
-        Task<RegisterResponse> Register(RegisterModel registerModel);
+        Task<LoginResponse> AuthenticateAsync(LoginModel loginModel);
+        Task<RegisterResponse> RegisterAsync(RegisterModel registerModel);
     }
 }

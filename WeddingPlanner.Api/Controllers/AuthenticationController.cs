@@ -30,7 +30,7 @@ namespace WeddingPlanner.Api.Controllers
         [ProducesResponseType(typeof(LoginResponse), 401)]
         public async Task<IActionResult> Login([FromBody] LoginModel user)
         {
-            var loginResponse = await _authenticationService.Authenticate(user);
+            var loginResponse = await _authenticationService.AuthenticateAsync(user);
             if (!loginResponse.Result)
             {
                 _logger.LogWarning("User not authorized.");
@@ -52,7 +52,7 @@ namespace WeddingPlanner.Api.Controllers
         [ProducesResponseType(typeof(RegisterResponse), 400)]
         public async Task<IActionResult> Register([FromBody] RegisterModel user)
         {
-            var registerResponse = await _authenticationService.Register(user);
+            var registerResponse = await _authenticationService.RegisterAsync(user);
             if(!registerResponse.Result)
             {
                 _logger.LogWarning("User not created.");

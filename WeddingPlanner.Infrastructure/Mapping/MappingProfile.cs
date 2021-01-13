@@ -8,10 +8,8 @@ namespace WeddingPlanner.Infrastructure.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<Guest, GuestDto>();
-            CreateMap<GuestDto, Guest>();
-            CreateMap<WeddingHall, WeddingHallDto>();
-            CreateMap<WeddingHallDto, WeddingHall>();
+            CreateMap<Guest, GuestDto>().ReverseMap();
+            CreateMap<WeddingHall, WeddingHallDto>().ReverseMap();
         }
     }
 }
