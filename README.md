@@ -102,6 +102,14 @@ Response body:
 * Create new wedding hall
 * Edit wedding hall
 
+#### Outfits
+
+* Add woman outfit
+* Update woman outfit
+* Add man outfit
+* Update man outfit
+* Get outfit by id and type
+
 #### Wedding Services
 
 TODO
