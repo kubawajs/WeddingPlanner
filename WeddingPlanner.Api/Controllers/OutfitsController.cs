@@ -15,13 +15,13 @@ namespace WeddingPlanner.Api.Controllers
     public class OutfitsController : Controller
     {
         private readonly ILogger<OutfitsController> _logger;
-        private readonly IOutfitService<ManOutfitDto> _manOutfitService;
-        private readonly IOutfitService<WomanOutfitDto> _womanOutfitService;
+        private readonly IBaseService<ManOutfitDto, OutfitResponse<ManOutfitDto>> _manOutfitService;
+        private readonly IBaseService<WomanOutfitDto, OutfitResponse<WomanOutfitDto>> _womanOutfitService;
 
         public OutfitsController(
             ILogger<OutfitsController> logger,
-            IOutfitService<ManOutfitDto> manOutfitService,
-            IOutfitService<WomanOutfitDto> womanOutfitService)
+            IBaseService<ManOutfitDto, OutfitResponse<ManOutfitDto>> manOutfitService,
+            IBaseService<WomanOutfitDto, OutfitResponse<WomanOutfitDto>> womanOutfitService)
         {
             _logger = logger;
             _manOutfitService = manOutfitService;
@@ -42,7 +42,7 @@ namespace WeddingPlanner.Api.Controllers
 
             if(outfitType == OutfitType.Man)
             {
-                var response = await _manOutfitService.GetOutfitAsync(id);
+                var response = await _manOutfitService.GetAsync(id);
                 if (!response.Result)
                 {
                     _logger.LogError($"An error occured during retrieving men outfit list.");
@@ -54,7 +54,7 @@ namespace WeddingPlanner.Api.Controllers
             }
             else if (outfitType == OutfitType.Woman)
             {
-                var response = await _womanOutfitService.GetOutfitAsync(id);
+                var response = await _womanOutfitService.GetAsync(id);
                 if (!response.Result)
                 {
                     _logger.LogError($"An error occured during retrieving Women outfit list.");
@@ -81,7 +81,7 @@ namespace WeddingPlanner.Api.Controllers
                 return BadRequest();
             }
 
-            var response = await _womanOutfitService.CreateOutfitAsync(model);
+            var response = await _womanOutfitService.CreateAsync(model);
             if (!response.Result)
             {
                 _logger.LogError($"An error occured during woman outfit creation.");
@@ -103,7 +103,7 @@ namespace WeddingPlanner.Api.Controllers
                 return BadRequest();
             }
 
-            var response = await _womanOutfitService.UpdateOutfitAsync(model);
+            var response = await _womanOutfitService.UpdateAsync(model);
             if (!response.Result)
             {
                 _logger.LogError($"An error occured during woman outfit edit.");
@@ -125,7 +125,7 @@ namespace WeddingPlanner.Api.Controllers
                 return BadRequest();
             }
 
-            var response = await _manOutfitService.CreateOutfitAsync(model);
+            var response = await _manOutfitService.CreateAsync(model);
             if (!response.Result)
             {
                 _logger.LogError($"An error occured during man outfit creation.");
@@ -147,7 +147,7 @@ namespace WeddingPlanner.Api.Controllers
                 return BadRequest();
             }
 
-            var response = await _manOutfitService.UpdateOutfitAsync(model);
+            var response = await _manOutfitService.UpdateAsync(model);
             if (!response.Result)
             {
                 _logger.LogError($"An error occured during man outfit edit.");

@@ -39,7 +39,7 @@ namespace WeddingPlanner.Tests.Services
 
             // Act
             var service = new GuestService(mockMapper.Object, mockRepo.Object);
-            var result = await service.CreateGuestAsync(mockGuestDto);
+            var result = await service.CreateAsync(mockGuestDto);
 
             // Assert
             result.Should().BeOfType<GuestResponse>();
@@ -63,7 +63,7 @@ namespace WeddingPlanner.Tests.Services
 
             // Act
             var service = new GuestService(mockMapper.Object, mockRepo.Object);
-            var result = await service.CreateGuestAsync(mockGuestDto);
+            var result = await service.CreateAsync(mockGuestDto);
 
             // Assert
             result.Should().BeOfType<GuestResponse>();
@@ -96,7 +96,7 @@ namespace WeddingPlanner.Tests.Services
 
             // Act
             var service = new GuestService(mockMapper.Object, mockRepo.Object);
-            var result = await service.CreateGuestAsync(mockGuestDto);
+            var result = await service.CreateAsync(mockGuestDto);
 
             // Assert
             result.Should().BeOfType<GuestResponse>();

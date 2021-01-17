@@ -138,7 +138,7 @@ namespace WeddingPlanner.Tests.Controllers
             };
             var mockResponse = new GuestResponse(
                 BaseApiResponse<GuestDto>.CreateSuccessResponse("test message", mockItem));
-            mockService.Setup(svc => svc.CreateGuestAsync(mockGuest)).ReturnsAsync(mockResponse);
+            mockService.Setup(svc => svc.CreateAsync(mockGuest)).ReturnsAsync(mockResponse);
             var controller = new GuestsController(mockLogger.Object, mockService.Object);
 
             // Act

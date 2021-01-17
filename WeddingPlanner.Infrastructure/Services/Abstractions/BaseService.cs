@@ -3,29 +3,29 @@ using System;
 using System.Threading.Tasks;
 using WeddingPlanner.Core.Domain.Abstractions;
 using WeddingPlanner.Infrastructure.Dto.Abstractions;
-using WeddingPlanner.Infrastructure.Models;
 using WeddingPlanner.Infrastructure.Models.Abstractions;
 using WeddingPlanner.Infrastructure.Repository.Abstractions;
 
 namespace WeddingPlanner.Infrastructure.Services.Abstractions
 {
-    public abstract class BaseOutfitService<TDto, TModel, TRepository> : IOutfitService<TDto>
-        where TDto : BaseOutfitDto
-        where TModel : BaseOutfit
-        where TRepository : IOutfitRepository<TModel>
+    public abstract class BaseService<TDto, TModel, TRepository, TResponse> : IBaseService<TDto, TResponse>
+        where TDto : IDto
+        where TModel : BaseModel
+        where TRepository : IBaseRepository<TModel>
+        where TResponse : BaseApiResponse<TDto>
     {
-        protected readonly IOutfitRepository<TModel> Repository;
+        protected readonly TRepository Repository;
         protected readonly IMapper Mapper;
 
-        public BaseOutfitService(
-            IOutfitRepository<TModel> repository,
+        public BaseService(
+            TRepository repository,
             IMapper mapper)
         {
             Repository = repository;
             Mapper = mapper;
         }
 
-        public virtual async Task<OutfitResponse<TDto>> CreateOutfitAsync(TDto model)
+        public virtual async Task<TResponse> CreateAsync(TDto model)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace WeddingPlanner.Infrastructure.Services.Abstractions
             }
         }
 
-        public virtual async Task<OutfitResponse<TDto>> GetOutfitAsync(int id)
+        public virtual async Task<TResponse> GetAsync(int id)
         {
             try
             {
@@ -63,7 +63,7 @@ namespace WeddingPlanner.Infrastructure.Services.Abstractions
             }
         }
 
-        public virtual async Task<OutfitResponse<TDto>> UpdateOutfitAsync(TDto model)
+        public virtual async Task<TResponse> UpdateAsync(TDto model)
         {
             try
             {
@@ -77,10 +77,7 @@ namespace WeddingPlanner.Infrastructure.Services.Abstractions
             }
         }
 
-        protected virtual OutfitResponse<TDto> CreateSuccessResponse(string message, TDto item) 
-            => new OutfitResponse<TDto>(BaseApiResponse<TDto>.CreateSuccessResponse(message, item));
-
-        protected virtual OutfitResponse<TDto> CreateErrorResponse(string message)
-            => new OutfitResponse<TDto>(BaseApiResponse<TDto>.CreateErrorResponse(message));
+        protected abstract TResponse CreateSuccessResponse(string message, TDto item);
+        protected abstract TResponse CreateErrorResponse(string message);
     }
 }

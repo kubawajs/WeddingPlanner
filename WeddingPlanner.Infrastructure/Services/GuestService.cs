@@ -12,47 +12,18 @@ using WeddingPlanner.Infrastructure.Services.Abstractions;
 
 namespace WeddingPlanner.Infrastructure.Services
 {
-    public class GuestService : IGuestService
+    public class GuestService : BaseService<GuestDto, Guest, IGuestRepository, GuestResponse>, IGuestService
     {
-        private readonly IMapper _mapper;
-        private readonly IGuestRepository _guestRepository;
+        public GuestService(IMapper mapper, IGuestRepository repository)
+            : base(repository, mapper)
+        { }
 
-        public GuestService(IMapper mapper, IGuestRepository guestRepository)
-        {
-            _mapper = mapper;
-            _guestRepository = guestRepository;
-        }
-
-        public async Task<GuestResponse> CreateGuestAsync(GuestDto guestDto)
-        {
-            try
-            {
-                var guest = _mapper.Map<Guest>(guestDto);
-                if (guest == null)
-                {
-                    throw new Exception("Guest cannot be null.");
-                }
-
-                await _guestRepository.CreateAsync(guest);
-                var response = new GuestResponse(
-                    BaseApiResponse<GuestDto>.CreateSuccessResponse("Guest successfully created", guestDto))
-                {
-                    Item = guestDto
-                };
-                return response;
-            }
-            catch (Exception ex)
-            {
-                return new GuestResponse(BaseApiResponse<GuestDto>.CreateErrorResponse(
-                    $"An error occured during guest creation: {ex.Message}"));
-            }
-        }
-
+        // TODO: refactoring
         public async Task<GuestListResponse> GetGuestsAsync()
         {
             try
             {
-                var guests = await _guestRepository.GetAllAsync();
+                var guests = await Repository.GetAllAsync();
                 if (guests == null)
                 {
                     return new GuestListResponse(BaseApiResponse<GuestListDto>.CreateErrorResponse("Cannot retrieve guests list."));
@@ -71,7 +42,7 @@ namespace WeddingPlanner.Infrastructure.Services
         {
             try
             {
-                var guests = await _guestRepository.GetGuestsByAgeAsync(age);
+                var guests = await Repository.GetGuestsByAgeAsync(age);
                 if (guests == null)
                 {
                     return new GuestListResponse(BaseApiResponse<GuestListDto>.CreateErrorResponse($"Cannot retrieve guests list for given age {age}."));
@@ -88,9 +59,15 @@ namespace WeddingPlanner.Infrastructure.Services
             }
         }
 
+        protected override GuestResponse CreateErrorResponse(string message) 
+            => new GuestResponse(BaseApiResponse<GuestDto>.CreateErrorResponse(message));
+
+        protected override GuestResponse CreateSuccessResponse(string message, GuestDto item) 
+            => new GuestResponse(BaseApiResponse<GuestDto>.CreateSuccessResponse(message, item));
+
         private GuestListResponse CreateGuestListSuccessResponse(IEnumerable<Guest> guests)
         {
-            var guestDtos = _mapper.Map<IEnumerable<GuestDto>>(guests);
+            var guestDtos = Mapper.Map<IEnumerable<GuestDto>>(guests);
             var guestList = new GuestListDto
             {
                 Guests = guestDtos

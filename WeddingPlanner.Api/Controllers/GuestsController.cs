@@ -56,7 +56,7 @@ namespace WeddingPlanner.Api.Controllers
                 return BadRequest();
             }
 
-            var response = await _guestService.CreateGuestAsync(model);
+            var response = await _guestService.CreateAsync(model);
             if(!response.Result)
             {
                 _logger.LogError($"An error occured during guest creation.");

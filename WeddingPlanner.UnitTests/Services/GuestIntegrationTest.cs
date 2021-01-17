@@ -41,7 +41,7 @@ namespace WeddingPlanner.Tests.Services
                 FirstName = "John",
                 LastName = "Doe"
             };
-            await guestService.CreateGuestAsync(guestDto);
+            await guestService.CreateAsync(guestDto);
 
             // Assert
             using var context = new WeddingPlannerDbContext(options);

@@ -23,9 +23,9 @@ namespace WeddingPlanner.Api.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(WeddingHallSummaryResponse), 200)]
         [ProducesResponseType(typeof(WeddingHallSummaryResponse), 400)]
-        public async Task<IActionResult> Index(int? id = null)
+        public async Task<IActionResult> Index(int id)
         {
-            var response = await _weddingHallService.GetWeddingHallSummary(id);
+            var response = await _weddingHallService.GetAsync(id);
             if (!response.Result)
             {
                 _logger.LogError($"An error occured during retrieving Wedding hall summary.");
@@ -47,7 +47,7 @@ namespace WeddingPlanner.Api.Controllers
                 return BadRequest();
             }
 
-            var response = await _weddingHallService.CreateWeddingHall(model);
+            var response = await _weddingHallService.CreateAsync(model);
             if(!response.Result)
             {
                 _logger.LogError($"An error occured during WeddingHall creation.");
@@ -69,7 +69,7 @@ namespace WeddingPlanner.Api.Controllers
                 return BadRequest();
             }
 
-            var response = await _weddingHallService.UpdateWeddingHall(model);
+            var response = await _weddingHallService.UpdateAsync(model);
             if (!response.Result)
             {
                 _logger.LogError($"An error occured during WeddingHall creation.");
