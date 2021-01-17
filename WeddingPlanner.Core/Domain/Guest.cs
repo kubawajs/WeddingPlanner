@@ -1,10 +1,10 @@
 ﻿using System;
+using WeddingPlanner.Core.Domain.Abstractions;
 
 namespace WeddingPlanner.Core.Domain
 {
-    public class Guest
+    public class Guest : BaseModel
     {
-        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public bool IsChild { get; set; }

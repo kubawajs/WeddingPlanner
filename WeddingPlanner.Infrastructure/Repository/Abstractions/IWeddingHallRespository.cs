@@ -1,13 +1,8 @@
-﻿using System.Threading.Tasks;
-using WeddingPlanner.Core.Domain;
-using WeddingPlanner.Core.Repositories;
+﻿using WeddingPlanner.Core.Domain;
 
 namespace WeddingPlanner.Infrastructure.Repository.Abstractions
 {
-    public interface IWeddingHallRespository : IRepository
+    public interface IWeddingHallRespository : IBaseRepository<WeddingHall>
     {
-        Task<WeddingHall> GetWeddingHallAsync(int id);
-        Task UpdateWeddingHallAsync(WeddingHall weddingHall);
-        Task CreateWeddingHallAsync(WeddingHall weddingHall);
     }
 }

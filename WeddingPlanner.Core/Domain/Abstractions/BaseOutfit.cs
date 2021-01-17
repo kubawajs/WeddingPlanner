@@ -2,9 +2,8 @@
 
 namespace WeddingPlanner.Core.Domain.Abstractions
 {
-    public class BaseOutfit
+    public class BaseOutfit : BaseModel
     {
-        public int Id { get; set; }
         public CostDescription Shoes { get; set; }
         public CostDescription Accessories { get; set; }
         public IEnumerable<CostDescription> AdditionalCosts { get; set; }

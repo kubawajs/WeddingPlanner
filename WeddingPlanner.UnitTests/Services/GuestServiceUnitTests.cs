@@ -92,7 +92,7 @@ namespace WeddingPlanner.Tests.Services
             var mockMapper = new Mock<IMapper>();
             mockMapper.Setup(x => x.Map<Guest>(mockGuestDto)).Returns(mockGuest);
             var mockRepo = new Mock<IGuestRepository>();
-            mockRepo.Setup(x => x.CreateGuestAsync(mockGuest)).Throws(new Exception("test message"));
+            mockRepo.Setup(x => x.CreateAsync(mockGuest)).Throws(new Exception("test message"));
 
             // Act
             var service = new GuestService(mockMapper.Object, mockRepo.Object);
@@ -128,7 +128,7 @@ namespace WeddingPlanner.Tests.Services
                       .Returns(mockGuestsDto);
             
             var mockRepo = new Mock<IGuestRepository>();
-            mockRepo.Setup(x => x.GetGuestsAsync()).ReturnsAsync(mockGuests);
+            mockRepo.Setup(x => x.GetAllAsync()).ReturnsAsync(mockGuests);
 
             // Act
             var service = new GuestService(mockMapper.Object, mockRepo.Object);
@@ -155,7 +155,7 @@ namespace WeddingPlanner.Tests.Services
                       .Returns(mockGuestsDto);
 
             var mockRepo = new Mock<IGuestRepository>();
-            mockRepo.Setup(x => x.GetGuestsAsync()).ReturnsAsync(mockGuests);
+            mockRepo.Setup(x => x.GetAllAsync()).ReturnsAsync(mockGuests);
 
             // Act
             var service = new GuestService(mockMapper.Object, mockRepo.Object);
@@ -191,7 +191,7 @@ namespace WeddingPlanner.Tests.Services
                       .Returns(mockGuestsDto);
 
             var mockRepo = new Mock<IGuestRepository>();
-            mockRepo.Setup(x => x.GetGuestsAsync()).Throws(new Exception("test exception"));
+            mockRepo.Setup(x => x.GetAllAsync()).Throws(new Exception("test exception"));
 
             // Act
             var service = new GuestService(mockMapper.Object, mockRepo.Object);

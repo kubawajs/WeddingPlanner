@@ -28,7 +28,7 @@ namespace WeddingPlanner.Infrastructure.Services
             try
             {
                 var weddingHall = _mapper.Map<WeddingHall>(model);
-                await _weddingHallRepository.CreateWeddingHallAsync(weddingHall);
+                await _weddingHallRepository.CreateAsync(weddingHall);
                 return await CreateWeddingHallSummarySuccessResponse(weddingHall, "Wedding hall summary successfully created.");
             }
             catch (Exception ex)
@@ -49,7 +49,7 @@ namespace WeddingPlanner.Infrastructure.Services
 
             try
             {
-                var weddingHall = await _weddingHallRepository.GetWeddingHallAsync(id.Value);
+                var weddingHall = await _weddingHallRepository.GetAsync(id.Value);
                 if (weddingHall == null)
                 {
                     return new WeddingHallSummaryResponse(
@@ -71,7 +71,7 @@ namespace WeddingPlanner.Infrastructure.Services
             try
             {
                 var weddingHall = _mapper.Map<WeddingHall>(model);
-                await _weddingHallRepository.UpdateWeddingHallAsync(weddingHall);
+                await _weddingHallRepository.UpdateAsync(weddingHall);
                 return await CreateWeddingHallSummarySuccessResponse(weddingHall, "Wedding hall summary successfully updated.");
             }
             catch(Exception ex)

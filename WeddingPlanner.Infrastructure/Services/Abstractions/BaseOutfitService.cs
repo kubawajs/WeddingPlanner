@@ -30,15 +30,17 @@ namespace WeddingPlanner.Infrastructure.Services.Abstractions
             try
             {
                 var outfit = Mapper.Map<TModel>(model);
-                await Repository.CreateOutfitAsync(outfit);
-                return new OutfitResponse<TDto>(
-                    BaseApiResponse<TDto>.CreateSuccessResponse($"{typeof(TDto).Name} successfully created", model));
+                if(outfit == null)
+                {
+                    throw new Exception($"{typeof(TDto).Name} cannot be null.");
+                }
+
+                await Repository.CreateAsync(outfit);
+                return CreateSuccessResponse($"{typeof(TDto).Name} successfully created", model);
             }
             catch (Exception ex)
             {
-                return new OutfitResponse<TDto>(
-                    BaseApiResponse<TDto>.CreateErrorResponse(
-                        $"An error occured during {typeof(TDto).Name} creation: {ex.Message}"));
+                return CreateErrorResponse($"An error occured during {typeof(TDto).Name} creation: {ex.Message}");
             }
         }
 
@@ -46,22 +48,18 @@ namespace WeddingPlanner.Infrastructure.Services.Abstractions
         {
             try
             {
-                var outfit = await Repository.GetOutfitAsync(id);
+                var outfit = await Repository.GetAsync(id);
                 if (outfit == null)
                 {
-                    return new OutfitResponse<TDto>(
-                        BaseApiResponse<TDto>.CreateErrorResponse($"Specified {typeof(TDto).Name} outfit was not found. Id: {id}"));
+                    return CreateErrorResponse($"Specified {typeof(TDto).Name} was not found. Id: {id}");
                 }
 
                 var model = Mapper.Map<TDto>(outfit);
-                return new OutfitResponse<TDto>(
-                    BaseApiResponse<TDto>.CreateSuccessResponse($"{typeof(TDto).Name} outfit successfully retrieved", model));
+                return CreateSuccessResponse($"{typeof(TDto).Name} successfully retrieved", model);
             }
             catch (Exception ex)
             {
-                return new OutfitResponse<TDto>(
-                    BaseApiResponse<TDto>.CreateErrorResponse(
-                        $"An error occured during {typeof(TDto).Name} outfit creation: {ex.Message}"));
+                return CreateErrorResponse($"An error occured during {typeof(TDto).Name} creation: {ex.Message}");
             }
         }
 
@@ -70,16 +68,19 @@ namespace WeddingPlanner.Infrastructure.Services.Abstractions
             try
             {
                 var outfit = Mapper.Map<TModel>(model);
-                await Repository.UpdateOutfitAsync(outfit);
-                return new OutfitResponse<TDto>(
-                    BaseApiResponse<TDto>.CreateSuccessResponse($"{typeof(TDto).Name} outfit successfully updated", model));
+                await Repository.UpdateAsync(outfit);
+                return CreateSuccessResponse($"{typeof(TDto).Name} outfit successfully updated", model);
             }
             catch (Exception ex)
             {
-                return new OutfitResponse<TDto>(
-                    BaseApiResponse<TDto>.CreateErrorResponse(
-                        $"An error occured during {typeof(TDto).Name} outfit update: {ex.Message}"));
+                return CreateErrorResponse($"An error occured during {typeof(TDto).Name} outfit update: {ex.Message}");
             }
         }
+
+        protected virtual OutfitResponse<TDto> CreateSuccessResponse(string message, TDto item) 
+            => new OutfitResponse<TDto>(BaseApiResponse<TDto>.CreateSuccessResponse(message, item));
+
+        protected virtual OutfitResponse<TDto> CreateErrorResponse(string message)
+            => new OutfitResponse<TDto>(BaseApiResponse<TDto>.CreateErrorResponse(message));
     }
 }

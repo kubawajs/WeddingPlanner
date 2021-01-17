@@ -8,19 +8,16 @@ using WeddingPlanner.Infrastructure.Repository.Abstractions;
 
 namespace WeddingPlanner.Infrastructure.Repository
 {
-    public class WeddingHallRepository : IWeddingHallRespository
+    public class WeddingHallRepository : BaseRepository<WeddingHall>, IWeddingHallRespository
     {
-        private readonly WeddingPlannerDbContext _context;
-
         public WeddingHallRepository(WeddingPlannerDbContext context)
-        {
-            _context = context;
-        }
+            : base(context)
+        { }
 
-        public async Task<WeddingHall> GetWeddingHallAsync(int id)
+        public override async Task<WeddingHall> GetAsync(int id)
         {
-            var weddingHall = await _context.WeddingHalls.Include(x => x.AdditionalCosts)
-                                                         .FirstOrDefaultAsync(x => x.Id == id);
+            var weddingHall = await Context.WeddingHalls.Include(x => x.AdditionalCosts)
+                                                        .FirstOrDefaultAsync(x => x.Id == id);
             if(weddingHall == null)
             {
                 throw new Exception($"Item with id {id} does not exist.");
@@ -29,27 +26,15 @@ namespace WeddingPlanner.Infrastructure.Repository
             return weddingHall;
         }
 
-        public async Task CreateWeddingHallAsync(WeddingHall weddingHall)
+        public override async Task CreateAsync(WeddingHall weddingHall)
         {
-            _context.WeddingHalls.Add(weddingHall);
-            await _context.SaveChangesAsync();
+            Context.WeddingHalls.Add(weddingHall);
+            await Context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<WeddingHall>> GetWeddingHallsAsync()
+        public override async Task<IEnumerable<WeddingHall>> GetAllAsync()
         {
-            return await _context.WeddingHalls.Include(x => x.AdditionalCosts).ToListAsync();
-        }
-
-        public async Task UpdateWeddingHallAsync(WeddingHall weddingHall)
-        {
-            var entityToUpdate = await _context.WeddingHalls.Include(x => x.AdditionalCosts)
-                                                            .FirstOrDefaultAsync(x => x.Id == weddingHall.Id);
-            if (entityToUpdate == null)
-            {
-                throw new DbUpdateException($"Cannot update item: specified item id: {weddingHall.Id} does not exist.");
-            }
-
-            _context.Entry(entityToUpdate).CurrentValues.SetValues(weddingHall);
+            return await Context.WeddingHalls.Include(x => x.AdditionalCosts).ToListAsync();
         }
     }
 }

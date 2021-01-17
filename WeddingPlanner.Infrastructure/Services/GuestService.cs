@@ -32,7 +32,8 @@ namespace WeddingPlanner.Infrastructure.Services
                 {
                     throw new Exception("Guest cannot be null.");
                 }
-                await _guestRepository.CreateGuestAsync(guest);
+
+                await _guestRepository.CreateAsync(guest);
                 var response = new GuestResponse(
                     BaseApiResponse<GuestDto>.CreateSuccessResponse("Guest successfully created", guestDto))
                 {
@@ -51,7 +52,7 @@ namespace WeddingPlanner.Infrastructure.Services
         {
             try
             {
-                var guests = await _guestRepository.GetGuestsAsync();
+                var guests = await _guestRepository.GetAllAsync();
                 if (guests == null)
                 {
                     return new GuestListResponse(BaseApiResponse<GuestListDto>.CreateErrorResponse("Cannot retrieve guests list."));
