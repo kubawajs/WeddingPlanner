@@ -37,7 +37,7 @@ namespace WeddingPlanner.Api.Controllers
                 return new UnauthorizedObjectResult(loginResponse);
             }
 
-            _logger.LogInformation($"User {loginResponse.Username} successfully logged in.");
+            _logger.LogInformation($"User {loginResponse.Item.Username} successfully logged in.");
             return new OkObjectResult(loginResponse);
         }
 
@@ -59,7 +59,7 @@ namespace WeddingPlanner.Api.Controllers
                 return new UnauthorizedObjectResult(registerResponse);
             }
 
-            _logger.LogInformation($"User {registerResponse.Username} successfully logged in.");
+            _logger.LogInformation($"User {registerResponse.Item.Username} successfully logged in.");
             return new OkObjectResult(registerResponse);
         }
     }

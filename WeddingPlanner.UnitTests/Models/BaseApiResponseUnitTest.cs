@@ -1,4 +1,6 @@
 ﻿using FluentAssertions;
+using Moq;
+using WeddingPlanner.Infrastructure.Dto.Abstractions;
 using WeddingPlanner.Infrastructure.Models.Abstractions;
 using Xunit;
 
@@ -13,7 +15,7 @@ namespace WeddingPlanner.Tests.Models
             var testMessage = "Test message";
 
             // Act
-            var result = BaseApiResponse.CreateErrorResponse(testMessage);
+            var result = BaseApiResponse<IDto>.CreateErrorResponse(testMessage);
 
             // Assert
             result.Should().NotBeNull();
@@ -27,12 +29,14 @@ namespace WeddingPlanner.Tests.Models
         {
             // Arrange
             var testMessage = "Test message";
+            var mockDto = new Mock<IDto>();
 
             // Act
-            var result = BaseApiResponse.CreateSuccessResponse(testMessage);
+            var result = BaseApiResponse<IDto>.CreateSuccessResponse(testMessage, mockDto.Object);
 
             // Assert
             result.Should().NotBeNull();
+            result.Item.Should().NotBeNull();
             result.Result.Should().BeTrue();
             result.Status.Should().Be(ResponseStatus.Success);
             result.Message.Should().Be(testMessage);

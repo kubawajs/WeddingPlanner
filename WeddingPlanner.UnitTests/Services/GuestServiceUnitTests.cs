@@ -138,8 +138,8 @@ namespace WeddingPlanner.Tests.Services
             result.Should().BeOfType<GuestListResponse>();
             result.Result.Should().BeTrue();
             result.Status.Should().Be(ResponseStatus.Success);
-            result.Items.Should().NotBeNull();
-            result.Items.Should().HaveCount(3);
+            result.Item.Guests.Should().NotBeNull();
+            result.Item.Guests.Should().HaveCount(3);
             result.Count.Should().Be(3);
         }
 
@@ -166,7 +166,7 @@ namespace WeddingPlanner.Tests.Services
             result.Result.Should().BeFalse();
             result.Status.Should().Be(ResponseStatus.Error);
             result.Count.Should().Be(0);
-            result.Items.Should().BeNull();
+            result.Item.Should().BeNull();
         }
 
         [Fact]
@@ -202,7 +202,7 @@ namespace WeddingPlanner.Tests.Services
             result.Result.Should().BeFalse();
             result.Status.Should().Be(ResponseStatus.Error);
             result.Count.Should().Be(0);
-            result.Items.Should().BeNull();
+            result.Item.Should().BeNull();
             result.Message.Should().Contain("test exception");
         }
 

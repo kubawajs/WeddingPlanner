@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Threading.Tasks;
 using WeddingPlanner.Infrastructure.Dto;
 using WeddingPlanner.Infrastructure.Models;
@@ -21,7 +20,7 @@ namespace WeddingPlanner.Api.Controllers
             _guestService = guestService;
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(GuestListResponse), 200)]
         [ProducesResponseType(typeof(GuestListResponse), 400)]
         public async Task<IActionResult> Index([FromQuery] int? age = null)

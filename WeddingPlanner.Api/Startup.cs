@@ -35,6 +35,8 @@ namespace WeddingPlanner.Api
                 opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             });
 
+            services.AddMvc().AddControllersAsServices();
+
             // Swagger
             services.AddSwaggerGen(c =>
             {

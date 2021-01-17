@@ -28,13 +28,13 @@ namespace WeddingPlanner.Infrastructure.Services
             try
             {
                 var guest = _mapper.Map<Guest>(guestDto);
-                if(guest == null)
+                if (guest == null)
                 {
                     throw new Exception("Guest cannot be null.");
                 }
                 await _guestRepository.CreateGuestAsync(guest);
-                var response = new GuestResponse(BaseApiResponse.CreateSuccessResponse("" +
-                    "Guest successfully created"))
+                var response = new GuestResponse(
+                    BaseApiResponse<GuestDto>.CreateSuccessResponse("Guest successfully created", guestDto))
                 {
                     Item = guestDto
                 };
@@ -42,7 +42,7 @@ namespace WeddingPlanner.Infrastructure.Services
             }
             catch (Exception ex)
             {
-                return new GuestResponse(BaseApiResponse.CreateErrorResponse(
+                return new GuestResponse(BaseApiResponse<GuestDto>.CreateErrorResponse(
                     $"An error occured during guest creation: {ex.Message}"));
             }
         }
@@ -54,14 +54,14 @@ namespace WeddingPlanner.Infrastructure.Services
                 var guests = await _guestRepository.GetGuestsAsync();
                 if (guests == null)
                 {
-                    return new GuestListResponse(BaseApiResponse.CreateErrorResponse("Cannot retrieve guests list."));
+                    return new GuestListResponse(BaseApiResponse<GuestListDto>.CreateErrorResponse("Cannot retrieve guests list."));
                 }
 
                 return CreateGuestListSuccessResponse(guests);
             }
             catch (Exception ex)
             {
-                return new GuestListResponse(BaseApiResponse.CreateErrorResponse(
+                return new GuestListResponse(BaseApiResponse<GuestListDto>.CreateErrorResponse(
                     $"An error occured during guest list retrieve: {ex.Message}"));
             }
         }
@@ -73,7 +73,7 @@ namespace WeddingPlanner.Infrastructure.Services
                 var guests = await _guestRepository.GetGuestsByAgeAsync(age);
                 if (guests == null)
                 {
-                    return new GuestListResponse(BaseApiResponse.CreateErrorResponse($"Cannot retrieve guests list for given age {age}."));
+                    return new GuestListResponse(BaseApiResponse<GuestListDto>.CreateErrorResponse($"Cannot retrieve guests list for given age {age}."));
                 }
 
                 var response = CreateGuestListSuccessResponse(guests);
@@ -82,7 +82,7 @@ namespace WeddingPlanner.Infrastructure.Services
             }
             catch (Exception ex)
             {
-                return new GuestListResponse(BaseApiResponse.CreateErrorResponse(
+                return new GuestListResponse(BaseApiResponse<GuestListDto>.CreateErrorResponse(
                     $"An error occured during guest list retrieve: {ex.Message}"));
             }
         }
@@ -90,12 +90,16 @@ namespace WeddingPlanner.Infrastructure.Services
         private GuestListResponse CreateGuestListSuccessResponse(IEnumerable<Guest> guests)
         {
             var guestDtos = _mapper.Map<IEnumerable<GuestDto>>(guests);
-            var response = new GuestListResponse(BaseApiResponse.CreateSuccessResponse("Guests list successfully retrieved."))
+            var guestList = new GuestListDto
             {
-                Items = guestDtos,
+                Guests = guestDtos
+            };
+
+            return new GuestListResponse(
+                BaseApiResponse<GuestListDto>.CreateSuccessResponse("Guests list successfully retrieved.", guestList))
+            {
                 Count = guestDtos.ToList().Count
             };
-            return response;
         }
     }
 }

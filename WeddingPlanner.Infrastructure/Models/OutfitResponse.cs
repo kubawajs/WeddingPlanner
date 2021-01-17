@@ -1,14 +1,15 @@
-﻿using WeddingPlanner.Infrastructure.Dto;
+﻿using WeddingPlanner.Infrastructure.Dto.Abstractions;
 using WeddingPlanner.Infrastructure.Models.Abstractions;
 
 namespace WeddingPlanner.Infrastructure.Models
 {
-    public class GuestResponse : BaseApiResponse<GuestDto>
+    public class OutfitResponse<TModelDto> : BaseApiResponse<TModelDto>
+        where TModelDto : BaseOutfitDto
     {
-        public GuestResponse()
+        public OutfitResponse()
         { }
 
-        public GuestResponse(BaseApiResponse<GuestDto> response)
+        public OutfitResponse(BaseApiResponse<TModelDto> response)
         {
             Message = response.Message;
             Status = response.Status;

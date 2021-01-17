@@ -70,8 +70,8 @@ namespace WeddingPlanner.Tests.Services
             // Assert
             result.Should().NotBeNull();
             result.Should().BeOfType<GuestListResponse>();
-            result.Items.Should().NotBeNull();
-            result.Items.Should().HaveCount(3);
+            result.Item.Guests.Should().NotBeNull();
+            result.Item.Guests.Should().HaveCount(3);
         }
 
         [Fact]
@@ -90,8 +90,8 @@ namespace WeddingPlanner.Tests.Services
             // Assert
             result.Should().NotBeNull();
             result.Should().BeOfType<GuestListResponse>();
-            result.Items.Should().NotBeNull();
-            result.Items.Should().BeEmpty();
+            result.Item.Guests.Should().NotBeNull();
+            result.Item.Guests.Should().BeEmpty();
         }
 
         [Fact]
@@ -111,8 +111,8 @@ namespace WeddingPlanner.Tests.Services
             // Assert
             result.Should().NotBeNull();
             result.Should().BeOfType<GuestListResponse>();
-            result.Items.Should().NotBeNull();
-            result.Items.Should().HaveCount(2);
+            result.Item.Guests.Should().NotBeNull();
+            result.Item.Guests.Should().HaveCount(2);
         }
 
         [Fact]
@@ -132,11 +132,11 @@ namespace WeddingPlanner.Tests.Services
             // Assert
             result.Should().NotBeNull();
             result.Should().BeOfType<GuestListResponse>();
-            result.Items.Should().NotBeNull();
-            result.Items.Should().HaveCount(1);
-            result.Items.First().FirstName.Should().Be("Tom");
-            result.Items.First().LastName.Should().Be("Holland");
-            result.Items.First().Age.Should().Be(30);
+            result.Item.Guests.Should().NotBeNull();
+            result.Item.Guests.Should().HaveCount(1);
+            result.Item.Guests.First().FirstName.Should().Be("Tom");
+            result.Item.Guests.First().LastName.Should().Be("Holland");
+            result.Item.Guests.First().Age.Should().Be(30);
 
         }
 

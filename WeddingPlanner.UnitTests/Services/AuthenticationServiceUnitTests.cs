@@ -1,9 +1,11 @@
-﻿using FluentAssertions;
+﻿using AutoMapper;
+using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using Moq;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks;
+using WeddingPlanner.Infrastructure.Dto;
 using WeddingPlanner.Infrastructure.Models;
 using WeddingPlanner.Infrastructure.Models.Abstractions;
 using WeddingPlanner.Infrastructure.Models.Authentication;
@@ -24,6 +26,11 @@ namespace WeddingPlanner.Tests.Services
                 UserName = "Test"
             };
 
+            var mockUserDto = new UserDto
+            {
+                Username = "Test"
+            };
+
             var mockLoginModel = new LoginModel
             {
                 Username = "Test",
@@ -32,6 +39,9 @@ namespace WeddingPlanner.Tests.Services
 
             var mockJwtService = new Mock<IJwtService>();
             mockJwtService.Setup(x => x.GenerateJwtToken(mockUser)).Returns(new JwtSecurityToken());
+
+            var mockMapper = new Mock<IMapper>();
+            mockMapper.Setup(x => x.Map<UserDto>(mockUser)).Returns(mockUserDto);
 
             var mockRoleStore = new Mock<IRoleStore<IdentityRole>>();
             var mockRoleManager = new Mock<RoleManager<IdentityRole>>(mockRoleStore.Object, null, null, null, null);
@@ -42,15 +52,18 @@ namespace WeddingPlanner.Tests.Services
             mockUserManager.Setup(x => x.CheckPasswordAsync(mockUser, mockLoginModel.Password)).ReturnsAsync(true);
 
             // Act
-            var service = new AuthenticationService(mockRoleManager.Object, mockUserManager.Object,
-                mockJwtService.Object);
+            var service = new AuthenticationService(
+                mockRoleManager.Object,
+                mockUserManager.Object,
+                mockJwtService.Object,
+                mockMapper.Object);
             var result = await service.AuthenticateAsync(mockLoginModel);
 
             // Assert
             result.Should().BeOfType<LoginResponse>();
             result.Result.Should().BeTrue();
             result.Status.Should().Be(ResponseStatus.Success);
-            result.Username.Should().Be(mockLoginModel.Username);
+            result.Item.Username.Should().Be(mockLoginModel.Username);
         }
 
         [Fact]
@@ -63,8 +76,16 @@ namespace WeddingPlanner.Tests.Services
                 UserName = "Test"
             };
 
+            var mockUserDto = new UserDto
+            {
+                Username = "Test"
+            };
+
             var mockJwtService = new Mock<IJwtService>();
             mockJwtService.Setup(x => x.GenerateJwtToken(mockUser)).Returns(new JwtSecurityToken());
+
+            var mockMapper = new Mock<IMapper>();
+            mockMapper.Setup(x => x.Map<UserDto>(mockUser)).Returns(mockUserDto);
 
             var mockRoleStore = new Mock<IRoleStore<IdentityRole>>();
             var mockRoleManager = new Mock<RoleManager<IdentityRole>>(mockRoleStore.Object, null, null, null, null);
@@ -72,15 +93,18 @@ namespace WeddingPlanner.Tests.Services
             var mockUserManager = new Mock<UserManager<User>>(mockUserStore.Object, null, null, null, null, null, null, null, null);
 
             // Act
-            var service = new AuthenticationService(mockRoleManager.Object,
-                mockUserManager.Object, mockJwtService.Object);
+            var service = new AuthenticationService(
+                mockRoleManager.Object,
+                mockUserManager.Object, 
+                mockJwtService.Object,
+                mockMapper.Object);
             var result = await service.AuthenticateAsync(mockLoginModel);
 
             // Assert
             result.Should().BeOfType<LoginResponse>();
             result.Result.Should().BeFalse();
             result.Status.Should().Be(ResponseStatus.Error);
-            result.Username.Should().BeNull();
+            result.Item.Should().BeNull();
             result.Token.Should().BeNull();
         }
 
@@ -93,6 +117,11 @@ namespace WeddingPlanner.Tests.Services
                 UserName = "Test"
             };
 
+            var mockUserDto = new UserDto
+            {
+                Username = "Test"
+            };
+
             var mockLoginModel = new LoginModel
             {
                 Username = "Test",
@@ -101,6 +130,9 @@ namespace WeddingPlanner.Tests.Services
 
             var mockJwtService = new Mock<IJwtService>();
             mockJwtService.Setup(x => x.GenerateJwtToken(mockUser)).Returns(new JwtSecurityToken());
+
+            var mockMapper = new Mock<IMapper>();
+            mockMapper.Setup(x => x.Map<UserDto>(mockUser)).Returns(mockUserDto);
 
             var mockRoleStore = new Mock<IRoleStore<IdentityRole>>();
             var mockRoleManager = new Mock<RoleManager<IdentityRole>>(mockRoleStore.Object, null, null, null, null);
@@ -111,15 +143,18 @@ namespace WeddingPlanner.Tests.Services
             mockUserManager.Setup(x => x.CheckPasswordAsync(mockUser, mockLoginModel.Password)).ReturnsAsync(true);
 
             // Act
-            var service = new AuthenticationService(mockRoleManager.Object,
-                mockUserManager.Object, mockJwtService.Object);
+            var service = new AuthenticationService(
+                mockRoleManager.Object,
+                mockUserManager.Object, 
+                mockJwtService.Object,
+                mockMapper.Object);
             var result = await service.AuthenticateAsync(mockLoginModel);
 
             // Assert
             result.Should().BeOfType<LoginResponse>();
             result.Result.Should().BeFalse();
             result.Status.Should().Be(ResponseStatus.Error);
-            result.Username.Should().BeNull();
+            result.Item.Should().BeNull();
             result.Token.Should().BeNull();
         }
 
@@ -132,6 +167,11 @@ namespace WeddingPlanner.Tests.Services
                 UserName = "Test"
             };
 
+            var mockUserDto = new UserDto
+            {
+                Username = "Test"
+            };
+
             var mockLoginModel = new LoginModel
             {
                 Username = "Test",
@@ -140,6 +180,9 @@ namespace WeddingPlanner.Tests.Services
 
             var mockJwtService = new Mock<IJwtService>();
             mockJwtService.Setup(x => x.GenerateJwtToken(mockUser)).Returns(new JwtSecurityToken());
+
+            var mockMapper = new Mock<IMapper>();
+            mockMapper.Setup(x => x.Map<UserDto>(mockUser)).Returns(mockUserDto);
 
             var mockRoleStore = new Mock<IRoleStore<IdentityRole>>();
             var mockRoleManager = new Mock<RoleManager<IdentityRole>>(mockRoleStore.Object, null, null, null, null);
@@ -150,34 +193,62 @@ namespace WeddingPlanner.Tests.Services
             mockUserManager.Setup(x => x.CheckPasswordAsync(mockUser, mockLoginModel.Password)).ReturnsAsync(false);
 
             // Act
-            var service = new AuthenticationService(mockRoleManager.Object, mockUserManager.Object,
-                mockJwtService.Object);
+            var service = new AuthenticationService(
+                mockRoleManager.Object,
+                mockUserManager.Object,
+                mockJwtService.Object,
+                mockMapper.Object);
             var result = await service.AuthenticateAsync(mockLoginModel);
 
             // Assert
             result.Should().BeOfType<LoginResponse>();
             result.Result.Should().BeFalse();
             result.Status.Should().Be(ResponseStatus.Error);
-            result.Username.Should().BeNull();
+            result.Item.Should().BeNull();
             result.Token.Should().BeNull();
         }
 
-        //[Fact]
-        //public async Task Authenticate_ReturnErrorResponse_ForNonExistingUsername()
-        //{
-        //    // Arrange
+        [Fact]
+        public async Task Authenticate_ReturnErrorResponse_IfUserNotExists()
+        {
+            // Arrange
+            User mockUser = null;
+            UserDto mockUserDto = null;
+            var mockLoginModel = new LoginModel
+            {
+                Username = "Test",
+                Password = "Test123$"
+            };
 
+            var mockJwtService = new Mock<IJwtService>();
+            mockJwtService.Setup(x => x.GenerateJwtToken(mockUser)).Returns(new JwtSecurityToken());
 
-        //    // Act
-        //    var service = new AuthenticationService();
-        //    var result = await service.AuthenticateAsync();
+            var mockMapper = new Mock<IMapper>();
+            mockMapper.Setup(x => x.Map<UserDto>(mockUser)).Returns(mockUserDto);
 
-        //    // Assert
-        //    result.Should().BeOfType<LoginResponse>();
-        //    result.Result.Should().BeFalse();
-        //    result.Status.Should().Be(ResponseStatus.Error);
-        //    result.Item.Should().BeNull();
-        //}
+            var mockRoleStore = new Mock<IRoleStore<IdentityRole>>();
+            var mockRoleManager = new Mock<RoleManager<IdentityRole>>(mockRoleStore.Object, null, null, null, null);
+            var mockUserStore = new Mock<IUserStore<User>>();
+            var mockUserManager = new Mock<UserManager<User>>(mockUserStore.Object, null, null, null, null, null, null, null, null);
+
+            mockUserManager.Setup(x => x.FindByNameAsync(mockLoginModel.Username)).ReturnsAsync(mockUser);
+            mockUserManager.Setup(x => x.CheckPasswordAsync(mockUser, mockLoginModel.Password)).ReturnsAsync(false);
+
+            // Act
+            var service = new AuthenticationService(
+                mockRoleManager.Object,
+                mockUserManager.Object,
+                mockJwtService.Object,
+                mockMapper.Object);
+            var result = await service.AuthenticateAsync(mockLoginModel);
+
+            // Assert
+            result.Should().BeOfType<LoginResponse>();
+            result.Result.Should().BeFalse();
+            result.Status.Should().Be(ResponseStatus.Error);
+            result.Item.Should().BeNull();
+            result.Token.Should().BeNull();
+        }
 
         //[Fact]
         //public async Task Register_ReturnSuccessResponse_ForValidRegisterModel()
@@ -231,7 +302,7 @@ namespace WeddingPlanner.Tests.Services
         //public async Task Register_ReturnErrorResponse_ForNullParam()
         //{
         //    // Arrange
-            
+
 
         //    // Act
         //    var service = new GuestService(mockMapper.Object, mockRepo.Object);
@@ -248,7 +319,7 @@ namespace WeddingPlanner.Tests.Services
         //public async Task CreateGuestAsync_ReturnErrorResponse_IfExceptionThrown()
         //{
         //    // Arrange
-            
+
 
         //    // Act
         //    var service = new AuthenticationService();

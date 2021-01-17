@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WeddingPlanner.Api.Controllers;
@@ -28,9 +27,13 @@ namespace WeddingPlanner.Tests.Controllers
                 new GuestDto(),
                 new GuestDto()
             });
-            var mockResponse = new GuestListResponse(BaseApiResponse.CreateSuccessResponse("test message"))
+            var mockItem = new GuestListDto
             {
-                Items = mockGuests,
+                Guests = mockGuests
+            };
+            var mockResponse = new GuestListResponse(
+                BaseApiResponse<GuestListDto>.CreateSuccessResponse("test message", mockItem))
+            {
                 Count = mockGuests.Count
             };
             mockService.Setup(repo => repo.GetGuestsAsync()).ReturnsAsync(mockResponse);
@@ -49,9 +52,9 @@ namespace WeddingPlanner.Tests.Controllers
             var response = (GuestListResponse) okObjectResult.Value;
             response.Status.Should().Be(ResponseStatus.Success);
             response.Result.Should().BeTrue();
-            response.Items.Should().NotBeNull();
-            response.Items.Should().NotBeEmpty();
-            response.Items.Should().HaveCount(3);
+            response.Item.Guests.Should().NotBeNull();
+            response.Item.Guests.Should().NotBeEmpty();
+            response.Item.Guests.Should().HaveCount(3);
             response.Count.Should().Be(3);
         }
 
@@ -68,9 +71,13 @@ namespace WeddingPlanner.Tests.Controllers
                 new GuestDto(),
                 new GuestDto()
             });
-            var mockResponse = new GuestListResponse(BaseApiResponse.CreateSuccessResponse("test message"))
+            var mockItem = new GuestListDto
             {
-                Items = mockGuests,
+                Guests = mockGuests
+            };
+            var mockResponse = new GuestListResponse(
+                BaseApiResponse<GuestListDto>.CreateSuccessResponse("test message", mockItem))
+            {
                 Count = mockGuests.Count
             };
             mockService.Setup(svc => svc.GetGuestsByAgeAsync(ageParam)).ReturnsAsync(mockResponse);
@@ -89,9 +96,9 @@ namespace WeddingPlanner.Tests.Controllers
             var response = (GuestListResponse)okObjectResult.Value;
             response.Status.Should().Be(ResponseStatus.Success);
             response.Result.Should().BeTrue();
-            response.Items.Should().NotBeNull();
-            response.Items.Should().NotBeEmpty();
-            response.Items.Should().HaveCount(3);
+            response.Item.Guests.Should().NotBeNull();
+            response.Item.Guests.Should().NotBeEmpty();
+            response.Item.Guests.Should().HaveCount(3);
             response.Count.Should().Be(3);
         }
         
@@ -123,15 +130,14 @@ namespace WeddingPlanner.Tests.Controllers
                 FirstName = "John",
                 LastName = "Doe"
             };
-            var mockResponse = new GuestResponse(BaseApiResponse.CreateSuccessResponse("test message"))
+            var mockItem = new GuestDto
             {
-                Item = new GuestDto
-                {
-                    Id = 1,
-                    FirstName = "John",
-                    LastName = "Doe"
-                }
+                Id = 1,
+                FirstName = "John",
+                LastName = "Doe"
             };
+            var mockResponse = new GuestResponse(
+                BaseApiResponse<GuestDto>.CreateSuccessResponse("test message", mockItem));
             mockService.Setup(svc => svc.CreateGuestAsync(mockGuest)).ReturnsAsync(mockResponse);
             var controller = new GuestsController(mockLogger.Object, mockService.Object);
 

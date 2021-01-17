@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
+using WeddingPlanner.Infrastructure.Dto;
 using WeddingPlanner.Infrastructure.Extensions;
 using WeddingPlanner.Infrastructure.Models;
 using WeddingPlanner.Infrastructure.Models.Abstractions;
@@ -19,22 +17,26 @@ namespace WeddingPlanner.Infrastructure.Services
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<User> _userManager;
         private readonly IJwtService _jwtService;
+        private readonly IMapper _mapper;
 
         public AuthenticationService(
             RoleManager<IdentityRole> roleManager,
             UserManager<User> userManager,
-            IJwtService jwtService)
+            IJwtService jwtService,
+            IMapper mapper)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             _jwtService = jwtService;
+            _mapper = mapper;
         }
 
         public async Task<LoginResponse> AuthenticateAsync(LoginModel loginModel)
         {
             if(loginModel == null)
             {
-                return new LoginResponse(BaseApiResponse.CreateErrorResponse("LoginModel cannot be null."));
+                return new LoginResponse(
+                    BaseApiResponse<UserDto>.CreateErrorResponse("LoginModel cannot be null."));
             }
 
             try
@@ -46,21 +48,22 @@ namespace WeddingPlanner.Infrastructure.Services
                     // var userRoles = await _userManager.GetRolesAsync(user);
 
                     var token = _jwtService.GenerateJwtToken(user);
-                    var response = new LoginResponse(BaseApiResponse.CreateSuccessResponse("User authenticated successfully!"))
+                    var userDto = _mapper.Map<UserDto>(user);
+                    var response = new LoginResponse(
+                        BaseApiResponse<UserDto>.CreateSuccessResponse("User authenticated successfully!", userDto))
                     {
                         Token = new JwtSecurityTokenHandler().WriteToken(token),
-                        Username = user.UserName,
                         Expiration = token.ValidTo
                     };
 
                     return response;
                 }
 
-                return new LoginResponse(BaseApiResponse.CreateErrorResponse("User not authenticated."));
+                return new LoginResponse(BaseApiResponse<UserDto>.CreateErrorResponse("User not authenticated."));
             }
             catch (Exception ex)
             {
-                return new LoginResponse(BaseApiResponse.CreateErrorResponse(
+                return new LoginResponse(BaseApiResponse<UserDto>.CreateErrorResponse(
                     $"An error occured during user authentication: {ex.Message}"));
             }
         }
@@ -72,7 +75,7 @@ namespace WeddingPlanner.Infrastructure.Services
                 var userExists = await _userManager.FindByNameAsync(registerModel.Username);
                 if (userExists != null)
                 {
-                    return new RegisterResponse(BaseApiResponse.CreateErrorResponse($"User already exists!"));
+                    return new RegisterResponse(BaseApiResponse<UserDto>.CreateErrorResponse($"User already exists!"));
                 }
 
                 var user = new User(registerModel);
@@ -80,18 +83,16 @@ namespace WeddingPlanner.Infrastructure.Services
 
                 if (!result.Succeeded)
                 {
-                    return new RegisterResponse(BaseApiResponse.CreateErrorResponse($"User creation failed: {result.Errors.GetErrorsAsString()}"));
+                    return new RegisterResponse(BaseApiResponse<UserDto>.CreateErrorResponse($"User creation failed: {result.Errors.GetErrorsAsString()}"));
                 }
 
-                var response = new RegisterResponse(BaseApiResponse.CreateSuccessResponse("User created successfully!"))
-                {
-                    Username = registerModel.Username
-                };
-                return response;
+                var userDto = _mapper.Map<UserDto>(user);
+                return new RegisterResponse(
+                    BaseApiResponse<UserDto>.CreateSuccessResponse("User created successfully!", userDto));
             }
             catch (Exception ex)
             {
-                return new RegisterResponse(BaseApiResponse.CreateErrorResponse(
+                return new RegisterResponse(BaseApiResponse<UserDto>.CreateErrorResponse(
                     $"An error occured during user registration: {ex.Message}"));
             }
         }

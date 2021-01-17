@@ -34,7 +34,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"id\": 0,\r\n  \"firstName\": \"Adam\",\r\n  \"lastName\": \"Nowak\",\r\n  \"isChild\": false,\r\n  \"hasPair\": true,\r\n  \"age\": 16\r\n}",
+							"raw": "{\r\n  \"id\": 0,\r\n  \"firstName\": \"Adam\",\r\n  \"lastName\": \"Nowak\",\r\n  \"isChild\": false,\r\n  \"hasPair\": true,\r\n  \"age\": 6\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -155,7 +155,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"childAgeFrom\": 5,\r\n    \"childAgeTo\": 10,\r\n    \"menuPerPerson\": {\r\n        \"price\": 168.15,\r\n        \"label\": \"Price (adult)\",\r\n        \"description\": \"Price for adult guest.\"\r\n    },\r\n    \"additionalCosts\": [\r\n        {\r\n            \"price\": 10,\r\n            \"label\": \"Drinks\",\r\n            \"description\": \"Price for drinks for one person.\"\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"childAgeFrom\": 5,\r\n    \"childAgeTo\": 10,\r\n    \"menuPerPerson\": {\r\n        \"price\": 168.15,\r\n        \"label\": \"Price (adult)\",\r\n        \"description\": \"Price for adult guest.\"\r\n    },\r\n    \"additionalCosts\": [\r\n        {\r\n            \"price\": 10,\r\n            \"label\": \"Drinks\",\r\n            \"description\": \"Price for drinks for one person.\"\r\n        },\r\n        {\r\n            \"price\": 15,\r\n            \"label\": \"Talerzykowe\",\r\n            \"description\": \"dupa\"\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -223,6 +223,158 @@
 							]
 						},
 						"description": "Updates wedding hall summary."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Outfit",
+			"item": [
+				{
+					"name": "Create woman outfit",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"shoes\": {\r\n    \"price\": 200,\r\n    \"label\": \"Wedding shoes\",\r\n    \"description\": \"Best wedding shoes.\"\r\n  },\r\n  \"accessories\": {\r\n    \"price\": 40,\r\n    \"label\": \"Accessories\",\r\n    \"description\": \"Accessories: earrings etc.\"\r\n  },\r\n  \"additionalCosts\": [\r\n    {\r\n      \"price\": 20,\r\n      \"label\": \"Nails\",\r\n      \"description\": \"Manicure.\"\r\n    }\r\n  ],\r\n  \"dress\": {\r\n    \"price\": 2500,\r\n    \"label\": \"Wedding dress\",\r\n    \"description\": \"Best wedding dress.\"\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{weddingPlannerUrl}}/api/outfits/create/woman",
+							"host": [
+								"{{weddingPlannerUrl}}"
+							],
+							"path": [
+								"api",
+								"outfits",
+								"create",
+								"woman"
+							]
+						},
+						"description": "Endpoint for creating woman outfit."
+					},
+					"response": []
+				},
+				{
+					"name": "Get outfit",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{weddingPlannerUrl}}/api/outfits?id=1&type=Man",
+							"host": [
+								"{{weddingPlannerUrl}}"
+							],
+							"path": [
+								"api",
+								"outfits"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								},
+								{
+									"key": "type",
+									"value": "Man"
+								}
+							]
+						},
+						"description": "Get outfit by id and type (Man/Woman)"
+					},
+					"response": []
+				},
+				{
+					"name": "Update woman outfit",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"shoes\": {\r\n        \"price\": 200,\r\n        \"label\": \"New wedding shoes\",\r\n        \"description\": \"Best wedding shoes.\"\r\n    },\r\n    \"accessories\": {\r\n        \"price\": 40,\r\n        \"label\": \"Accessories\",\r\n        \"description\": \"Accessories: earrings etc.\"\r\n    },\r\n    \"additionalCosts\": [\r\n        {\r\n            \"price\": 20,\r\n            \"label\": \"Nails\",\r\n            \"description\": \"Manicure.\"\r\n        }\r\n    ],\r\n    \"dress\": {\r\n        \"price\": 3500,\r\n        \"label\": \"Better wedding dress\",\r\n        \"description\": \"Best wedding dress.\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{weddingPlannerUrl}}/api/outfits/edit/woman",
+							"host": [
+								"{{weddingPlannerUrl}}"
+							],
+							"path": [
+								"api",
+								"outfits",
+								"edit",
+								"woman"
+							]
+						},
+						"description": "Update woman outfit model."
+					},
+					"response": []
+				},
+				{
+					"name": "Create man outfit",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"shoes\": {\r\n        \"price\": 200,\r\n        \"label\": \"Shoes\",\r\n        \"description\": \"Wedding shoes.\"\r\n    },\r\n    \"accessories\": {\r\n        \"price\": 50,\r\n        \"label\": \"Pins\",\r\n        \"description\": \"Shirt pins.\"\r\n    },\r\n    \"additionalCosts\": [\r\n        {\r\n            \"price\": 50,\r\n            \"label\": \"Tie\",\r\n            \"description\": \"New tie.\"\r\n        }\r\n    ],\r\n    \"suit\": {\r\n        \"price\": 3000,\r\n        \"label\": \"Wedding suit\",\r\n        \"description\": \"Best wedding suit.\"\r\n    },\r\n    \"shirt\": {\r\n        \"price\": 100,\r\n        \"label\": \"Wedding shirt\",\r\n        \"description\": \"Bast wedding shirt.\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{weddingPlannerUrl}}/api/outfits/create/man",
+							"host": [
+								"{{weddingPlannerUrl}}"
+							],
+							"path": [
+								"api",
+								"outfits",
+								"create",
+								"man"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update man outfit",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"shoes\": {\r\n        \"price\": 500,\r\n        \"label\": \"Shoes\",\r\n        \"description\": \"Better wedding shoes.\"\r\n    },\r\n    \"accessories\": {\r\n        \"price\": 50,\r\n        \"label\": \"Pins\",\r\n        \"description\": \"Shirt pins.\"\r\n    },\r\n    \"additionalCosts\": [\r\n        {\r\n            \"price\": 50,\r\n            \"label\": \"Tie\",\r\n            \"description\": \"New tie.\"\r\n        }\r\n    ],\r\n    \"suit\": {\r\n        \"price\": 3000,\r\n        \"label\": \"Wedding suit\",\r\n        \"description\": \"Best wedding suit.\"\r\n    },\r\n    \"shirt\": {\r\n        \"price\": 100,\r\n        \"label\": \"Wedding shirt\",\r\n        \"description\": \"Bast wedding shirt.\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{weddingPlannerUrl}}/api/outfits/edit/man",
+							"host": [
+								"{{weddingPlannerUrl}}"
+							],
+							"path": [
+								"api",
+								"outfits",
+								"edit",
+								"man"
+							]
+						}
 					},
 					"response": []
 				}

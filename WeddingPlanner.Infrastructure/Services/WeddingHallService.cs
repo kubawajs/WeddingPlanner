@@ -34,7 +34,7 @@ namespace WeddingPlanner.Infrastructure.Services
             catch (Exception ex)
             {
                 return new WeddingHallSummaryResponse(
-                    BaseApiResponse.CreateErrorResponse(
+                    BaseApiResponse<WeddingHallDto>.CreateErrorResponse(
                         $"An error occured during wedding hall summary creation: {ex.Message}"));
             }
         }
@@ -43,7 +43,8 @@ namespace WeddingPlanner.Infrastructure.Services
         {
             if(id == null)
             {
-                return new WeddingHallSummaryResponse(BaseApiResponse.CreateErrorResponse("Id param not specified."));
+                return new WeddingHallSummaryResponse(
+                    BaseApiResponse<WeddingHallDto>.CreateErrorResponse("Id param not specified."));
             }
 
             try
@@ -51,7 +52,8 @@ namespace WeddingPlanner.Infrastructure.Services
                 var weddingHall = await _weddingHallRepository.GetWeddingHallAsync(id.Value);
                 if (weddingHall == null)
                 {
-                    return new WeddingHallSummaryResponse(BaseApiResponse.CreateErrorResponse($"Specified wedding hall was not found. Id: {id.Value}"));
+                    return new WeddingHallSummaryResponse(
+                        BaseApiResponse<WeddingHallDto>.CreateErrorResponse($"Specified wedding hall was not found. Id: {id.Value}"));
                 }
 
                 return await CreateWeddingHallSummarySuccessResponse(weddingHall, "Wedding hall summary successfully retrieved.");
@@ -59,7 +61,7 @@ namespace WeddingPlanner.Infrastructure.Services
             catch(Exception ex)
             {
                 return new WeddingHallSummaryResponse(
-                    BaseApiResponse.CreateErrorResponse(
+                    BaseApiResponse<WeddingHallDto>.CreateErrorResponse(
                         $"An error occured during wedding hall summary creation: {ex.Message}"));
             }
         }
@@ -75,7 +77,7 @@ namespace WeddingPlanner.Infrastructure.Services
             catch(Exception ex)
             {
                 return new WeddingHallSummaryResponse(
-                    BaseApiResponse.CreateErrorResponse(
+                    BaseApiResponse<WeddingHallDto>.CreateErrorResponse(
                         $"An error occured during wedding hall summary update: {ex.Message}"));
             }
         }
@@ -84,11 +86,13 @@ namespace WeddingPlanner.Infrastructure.Services
         {
             var adultGuestsCount = await _guestRepository.GetAllGuestsCountAsync(weddingHall.ChildAgeTo);
             var childGuestsCount = await _guestRepository.GetChildGuestsCountAsync(weddingHall.ChildAgeFrom, weddingHall.ChildAgeTo);
-            return new WeddingHallSummaryResponse(BaseApiResponse.CreateSuccessResponse(message))
+            var item = _mapper.Map<WeddingHallDto>(weddingHall);
+
+            return new WeddingHallSummaryResponse(
+                BaseApiResponse<WeddingHallDto>.CreateSuccessResponse(message, item))
             {
                 AdultGuestsCount = adultGuestsCount,
-                ChildGuestsCount = childGuestsCount,
-                Summary = _mapper.Map<WeddingHallDto>(weddingHall)
+                ChildGuestsCount = childGuestsCount
             };
         }
     }
