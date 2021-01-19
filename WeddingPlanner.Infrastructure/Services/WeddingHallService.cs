@@ -28,7 +28,7 @@ namespace WeddingPlanner.Infrastructure.Services
             {
                 var weddingHall = Mapper.Map<WeddingHall>(model);
                 await Repository.CreateAsync(weddingHall);
-                return await CreateWeddingHallSummarySuccessResponse(weddingHall, "Wedding hall summary successfully created.");
+                return await CreateWeddingHallSummaryResponseAsync(weddingHall, "Wedding hall summary successfully created.");
             }
             catch (Exception ex)
             {
@@ -47,7 +47,7 @@ namespace WeddingPlanner.Infrastructure.Services
                         BaseApiResponse<WeddingHallDto>.CreateErrorResponse($"Specified wedding hall was not found. Id: {id}"));
                 }
 
-                return await CreateWeddingHallSummarySuccessResponse(weddingHall, "Wedding hall summary successfully retrieved.");
+                return await CreateWeddingHallSummaryResponseAsync(weddingHall, "Wedding hall summary successfully retrieved.");
             }
             catch(Exception ex)
             {
@@ -61,7 +61,7 @@ namespace WeddingPlanner.Infrastructure.Services
             {
                 var weddingHall = Mapper.Map<WeddingHall>(model);
                 await Repository.UpdateAsync(weddingHall);
-                return await CreateWeddingHallSummarySuccessResponse(weddingHall, "Wedding hall summary successfully updated.");
+                return await CreateWeddingHallSummaryResponseAsync(weddingHall, "Wedding hall summary successfully updated.");
             }
             catch(Exception ex)
             {
@@ -73,23 +73,16 @@ namespace WeddingPlanner.Infrastructure.Services
             => new WeddingHallSummaryResponse(BaseApiResponse<WeddingHallDto>.CreateErrorResponse(message));
 
         protected override WeddingHallSummaryResponse CreateSuccessResponse(string message, WeddingHallDto item)
-        {
-            // TODO: implement
-            throw new NotImplementedException();
-        }
+            => new WeddingHallSummaryResponse(BaseApiResponse<WeddingHallDto>.CreateSuccessResponse(message, item));
 
-        private async Task<WeddingHallSummaryResponse> CreateWeddingHallSummarySuccessResponse(WeddingHall weddingHall, string message)
+        private async Task<WeddingHallSummaryResponse> CreateWeddingHallSummaryResponseAsync(WeddingHall weddingHall, string message)
         {
-            var adultGuestsCount = await _guestRepository.GetAllGuestsCountAsync(weddingHall.ChildAgeTo);
-            var childGuestsCount = await _guestRepository.GetChildGuestsCountAsync(weddingHall.ChildAgeFrom, weddingHall.ChildAgeTo);
             var item = Mapper.Map<WeddingHallDto>(weddingHall);
+            var response = CreateSuccessResponse(message, item);
+            response.AdultGuestsCount = await _guestRepository.GetAllGuestsCountAsync(weddingHall.ChildAgeTo);
+            response.ChildGuestsCount = await _guestRepository.GetChildGuestsCountAsync(weddingHall.ChildAgeFrom, weddingHall.ChildAgeTo);
 
-            return new WeddingHallSummaryResponse(
-                BaseApiResponse<WeddingHallDto>.CreateSuccessResponse(message, item))
-            {
-                AdultGuestsCount = adultGuestsCount,
-                ChildGuestsCount = childGuestsCount
-            };
+            return response;
         }
     }
 }

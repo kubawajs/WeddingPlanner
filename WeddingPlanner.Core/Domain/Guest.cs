@@ -1,5 +1,4 @@
-﻿using System;
-using WeddingPlanner.Core.Domain.Abstractions;
+﻿using WeddingPlanner.Core.Domain.Abstractions;
 
 namespace WeddingPlanner.Core.Domain
 {
