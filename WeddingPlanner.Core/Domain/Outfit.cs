@@ -3,11 +3,8 @@ using WeddingPlanner.Core.Domain.Abstractions;
 
 namespace WeddingPlanner.Core.Domain
 {
-    public class WeddingHall : BaseModel
+    public class Outfit : BaseModel
     {
-        public int ChildAgeFrom { get; set; }
-        public int ChildAgeTo { get; set; }
-        public CostDescription MenuPerPerson { get; set; }
         public IEnumerable<CostDescription> Costs { get; set; }
     }
 }

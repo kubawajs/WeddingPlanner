@@ -1,8 +1,9 @@
 ﻿namespace WeddingPlanner.Core.Domain.Abstractions
 {
-    public enum OutfitType
+    public enum CostType
     {
         Man,
-        Woman
+        Woman,
+        All
     }
 }

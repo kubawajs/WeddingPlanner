@@ -44,7 +44,10 @@ namespace WeddingPlanner.Api
             });
 
             // Entity Framework
-            services.AddDbContext<WeddingPlannerDbContext>(opt => opt.UseInMemoryDatabase("Wedding Planner"));
+            services.AddDbContext<WeddingPlannerDbContext>(
+                opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDatabaseDeveloperPageExceptionFilter();
 
             // For Identity  
             services.AddIdentity<User, IdentityRole>()

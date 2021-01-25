@@ -16,7 +16,7 @@ namespace WeddingPlanner.Infrastructure.Repository
 
         public override async Task<WeddingHall> GetAsync(int id)
         {
-            var weddingHall = await Context.WeddingHalls.Include(x => x.AdditionalCosts)
+            var weddingHall = await Context.WeddingHalls.Include(x => x.Costs)
                                                         .FirstOrDefaultAsync(x => x.Id == id);
             if(weddingHall == null)
             {
@@ -34,7 +34,7 @@ namespace WeddingPlanner.Infrastructure.Repository
 
         public override async Task<IEnumerable<WeddingHall>> GetAllAsync()
         {
-            return await Context.WeddingHalls.Include(x => x.AdditionalCosts).ToListAsync();
+            return await Context.WeddingHalls.Include(x => x.Costs).ToListAsync();
         }
     }
 }

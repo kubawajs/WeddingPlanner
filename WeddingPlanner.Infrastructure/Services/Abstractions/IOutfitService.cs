@@ -1,10 +1,9 @@
-﻿using WeddingPlanner.Infrastructure.Dto.Abstractions;
+﻿using WeddingPlanner.Infrastructure.Dto;
 using WeddingPlanner.Infrastructure.Models;
 
 namespace WeddingPlanner.Infrastructure.Services.Abstractions
 {
-    public interface IOutfitService<TDto> : IBaseService<TDto, OutfitResponse<TDto>>
-        where TDto : BaseOutfitDto
+    public interface IOutfitService : IBaseService<OutfitDto, OutfitResponse<OutfitDto>>
     {
     }
 }

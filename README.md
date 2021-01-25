@@ -4,12 +4,18 @@ WeddingPlanner API and application.
 ## Prerequisities
 
 * Visual Studio 2019
+* SQL Server
 
 ## Getting Started
 
 1. Clone repository. Open solution file in Visual Studio.
 2. Restore nuget packages.
-4. Build and run solution.
+3. Build solution.
+4. Setup SQL database - open Infrastructure project folder, open PowerShell and run command:
+```
+dotnet ef --startup-project ..\WeddingPlanner.Api\ database update
+```
+5. Run application.
 
 ## Built With
 
@@ -43,8 +49,9 @@ Request body:
 
 ```json
 {
-  "username": "string",
-  "password": "string"
+  "username": "TestUser",
+  "email": "user@example.com",
+  "password": "TestUser123$"
 }
 ```
 
@@ -52,11 +59,14 @@ Response body:
 ```json
 {
   "result": true,
-  "status": "Error",
+  "status": "Success",
   "message": "string",
-  "username": "string",
+  "item": {
+    "username": "string",
+    "email": "string"
+  },
   "token": "string",
-  "expiration": "2021-01-07T23:07:42.810Z"
+  "expiration": "2021-01-19T23:48:48.943Z"
 }
 ```
 
@@ -72,9 +82,8 @@ Request body:
 
 ```json
 {
-  "username": "string",
-  "email": "user@example.com",
-  "password": "string"
+  "username": "TestUser",
+  "password": "TestUser123$"
 }
 ```
 
@@ -82,9 +91,12 @@ Response body:
 ```json
 {
   "result": true,
-  "status": "Error",
+  "status": "Success",
   "message": "string",
-  "username": "string"
+  "item": {
+    "username": "string",
+    "email": "string"
+  }
 }
 ```
 
@@ -104,11 +116,9 @@ Response body:
 
 #### Outfits
 
-* Add woman outfit
-* Update woman outfit
-* Add man outfit
-* Update man outfit
-* Get outfit by id and type
+* Add outfit
+* Update outfit
+* Get outfit by id
 
 #### Wedding Services
 

@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Threading.Tasks;
-using WeddingPlanner.Core.Domain.Abstractions;
 using WeddingPlanner.Infrastructure.Dto;
-using WeddingPlanner.Infrastructure.Dto.Abstractions;
 using WeddingPlanner.Infrastructure.Models;
 using WeddingPlanner.Infrastructure.Services.Abstractions;
 
@@ -15,65 +12,58 @@ namespace WeddingPlanner.Api.Controllers
     public class OutfitsController : Controller
     {
         private readonly ILogger<OutfitsController> _logger;
-        private readonly IBaseService<ManOutfitDto, OutfitResponse<ManOutfitDto>> _manOutfitService;
-        private readonly IBaseService<WomanOutfitDto, OutfitResponse<WomanOutfitDto>> _womanOutfitService;
+        private readonly IBaseService<OutfitDto, OutfitResponse<OutfitDto>> _outfitService;
 
         public OutfitsController(
             ILogger<OutfitsController> logger,
-            IBaseService<ManOutfitDto, OutfitResponse<ManOutfitDto>> manOutfitService,
-            IBaseService<WomanOutfitDto, OutfitResponse<WomanOutfitDto>> womanOutfitService)
+            IBaseService<OutfitDto, OutfitResponse<OutfitDto>> outfitService)
         {
             _logger = logger;
-            _manOutfitService = manOutfitService;
-            _womanOutfitService = womanOutfitService;
+            _outfitService = outfitService;
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(OutfitResponse<BaseOutfitDto>), 200)]
-        [ProducesResponseType(typeof(OutfitResponse<BaseOutfitDto>), 400)]
-        public async Task<IActionResult> Index([FromQuery] string type, int id)
+        [ProducesResponseType(typeof(OutfitResponse<OutfitDto>), 200)]
+        [ProducesResponseType(typeof(OutfitResponse<OutfitDto>), 400)]
+        public async Task<IActionResult> Index([FromQuery] int id)
         {
-            var parseResult = Enum.TryParse(type, out OutfitType outfitType);
-            if (!parseResult)
+            var response = await _outfitService.GetAsync(id);
+            if (!response.Result)
             {
-                _logger.LogError($"Invalid parameter type: {type}");
-                return BadRequest($"Invalid parameter type: {type}");
+                _logger.LogError($"An error occured during retrieving outfit list.");
+                return BadRequest(response);
             }
 
-            if(outfitType == OutfitType.Man)
-            {
-                var response = await _manOutfitService.GetAsync(id);
-                if (!response.Result)
-                {
-                    _logger.LogError($"An error occured during retrieving men outfit list.");
-                    return BadRequest(response);
-                }
-
-                _logger.LogInformation("Man outfit successfully retrieved.");
-                return new OkObjectResult(response);
-            }
-            else if (outfitType == OutfitType.Woman)
-            {
-                var response = await _womanOutfitService.GetAsync(id);
-                if (!response.Result)
-                {
-                    _logger.LogError($"An error occured during retrieving Women outfit list.");
-                    return BadRequest(response);
-                }
-
-                _logger.LogInformation("Woman outfit successfully retrieved.");
-                return new OkObjectResult(response);
-            }
-            else
-            {
-                return BadRequest();
-            }
+            _logger.LogInformation("Outfit successfully retrieved.");
+            return new OkObjectResult(response);
         }
 
-        [HttpPost("create/woman")]
-        [ProducesResponseType(typeof(OutfitResponse<WomanOutfitDto>), 200)]
-        [ProducesResponseType(typeof(OutfitResponse<WomanOutfitDto>), 400)]
-        public async Task<IActionResult> Create([FromBody] WomanOutfitDto model)
+        [HttpPost("create")]
+        [ProducesResponseType(typeof(OutfitResponse<OutfitDto>), 200)]
+        [ProducesResponseType(typeof(OutfitResponse<OutfitDto>), 400)]
+        public async Task<IActionResult> Create([FromBody] OutfitDto model)
+        {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogWarning("Outfit model is not valid.");
+                return BadRequest();
+            }
+
+            var response = await _outfitService.CreateAsync(model);
+            if (!response.Result)
+            {
+                _logger.LogError($"An error occured during outfit creation.");
+                return BadRequest(response);
+            }
+
+            _logger.LogInformation($"Outfit successfully created: {response.Item.Id}");
+            return new OkObjectResult(response);
+        }
+
+        [HttpPut("edit/{id}")]
+        [ProducesResponseType(typeof(OutfitResponse<OutfitDto>), 200)]
+        [ProducesResponseType(typeof(OutfitResponse<OutfitDto>), 400)]
+        public async Task<IActionResult> Edit([FromBody] OutfitDto model)
         {
             if (!ModelState.IsValid)
             {
@@ -81,80 +71,14 @@ namespace WeddingPlanner.Api.Controllers
                 return BadRequest();
             }
 
-            var response = await _womanOutfitService.CreateAsync(model);
+            var response = await _outfitService.UpdateAsync(model);
             if (!response.Result)
             {
-                _logger.LogError($"An error occured during woman outfit creation.");
+                _logger.LogError($"An error occured during outfit edit.");
                 return BadRequest(response);
             }
 
-            _logger.LogInformation($"Woman outfit successfully created: {response.Item.Id}");
-            return new OkObjectResult(response);
-        }
-
-        [HttpPut("edit/woman")]
-        [ProducesResponseType(typeof(OutfitResponse<WomanOutfitDto>), 200)]
-        [ProducesResponseType(typeof(OutfitResponse<WomanOutfitDto>), 400)]
-        public async Task<IActionResult> Edit([FromBody] WomanOutfitDto model)
-        {
-            if (!ModelState.IsValid)
-            {
-                _logger.LogWarning("Woman outfit model is not valid.");
-                return BadRequest();
-            }
-
-            var response = await _womanOutfitService.UpdateAsync(model);
-            if (!response.Result)
-            {
-                _logger.LogError($"An error occured during woman outfit edit.");
-                return BadRequest(response);
-            }
-
-            _logger.LogInformation($"Woman outfit successfully edited: {response.Item.Id}");
-            return new OkObjectResult(response);
-        }
-
-        [HttpPost("create/man")]
-        [ProducesResponseType(typeof(OutfitResponse<ManOutfitDto>), 200)]
-        [ProducesResponseType(typeof(OutfitResponse<ManOutfitDto>), 400)]
-        public async Task<IActionResult> Create([FromBody] ManOutfitDto model)
-        {
-            if (!ModelState.IsValid)
-            {
-                _logger.LogWarning("Man outfit model is not valid.");
-                return BadRequest();
-            }
-
-            var response = await _manOutfitService.CreateAsync(model);
-            if (!response.Result)
-            {
-                _logger.LogError($"An error occured during man outfit creation.");
-                return BadRequest(response);
-            }
-
-            _logger.LogInformation($"Man outfit successfully created: {response.Item.Id}");
-            return new OkObjectResult(response);
-        }
-
-        [HttpPut("edit/man")]
-        [ProducesResponseType(typeof(OutfitResponse<ManOutfitDto>), 200)]
-        [ProducesResponseType(typeof(OutfitResponse<ManOutfitDto>), 400)]
-        public async Task<IActionResult> Edit([FromBody] ManOutfitDto model)
-        {
-            if (!ModelState.IsValid)
-            {
-                _logger.LogWarning("Man outfit model is not valid.");
-                return BadRequest();
-            }
-
-            var response = await _manOutfitService.UpdateAsync(model);
-            if (!response.Result)
-            {
-                _logger.LogError($"An error occured during man outfit edit.");
-                return BadRequest(response);
-            }
-
-            _logger.LogInformation($"Man outfit successfully edited: {response.Item.Id}");
+            _logger.LogInformation($"Outfit successfully edited: {response.Item.Id}");
             return new OkObjectResult(response);
         }
     }

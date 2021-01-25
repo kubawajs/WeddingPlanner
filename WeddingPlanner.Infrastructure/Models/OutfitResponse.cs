@@ -1,10 +1,10 @@
-﻿using WeddingPlanner.Infrastructure.Dto.Abstractions;
+﻿using WeddingPlanner.Infrastructure.Dto;
 using WeddingPlanner.Infrastructure.Models.Abstractions;
 
 namespace WeddingPlanner.Infrastructure.Models
 {
     public class OutfitResponse<TModelDto> : BaseApiResponse<TModelDto>
-        where TModelDto : BaseOutfitDto
+        where TModelDto : OutfitDto
     {
         public OutfitResponse()
         { }

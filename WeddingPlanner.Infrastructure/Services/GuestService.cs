@@ -18,7 +18,7 @@ namespace WeddingPlanner.Infrastructure.Services
             : base(repository, mapper)
         { }
 
-        // TODO: refactoring
+        // TODO: refactor
         public async Task<GuestListResponse> GetGuestsAsync()
         {
             try

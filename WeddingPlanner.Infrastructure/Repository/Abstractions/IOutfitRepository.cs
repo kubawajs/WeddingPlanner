@@ -1,9 +1,8 @@
-﻿using WeddingPlanner.Core.Domain.Abstractions;
+﻿using WeddingPlanner.Core.Domain;
 
 namespace WeddingPlanner.Infrastructure.Repository.Abstractions
 {
-    public interface IOutfitRepository<TModel> : IBaseRepository<TModel>
-        where TModel : BaseOutfit
+    public interface IOutfitRepository : IBaseRepository<Outfit>
     {
     }
 }

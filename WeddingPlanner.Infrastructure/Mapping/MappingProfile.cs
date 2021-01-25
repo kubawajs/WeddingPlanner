@@ -11,8 +11,7 @@ namespace WeddingPlanner.Infrastructure.Mapping
         {
             CreateMap<Guest, GuestDto>().ReverseMap();
             CreateMap<WeddingHall, WeddingHallDto>().ReverseMap();
-            CreateMap<ManOutfit, ManOutfitDto>().ReverseMap();
-            CreateMap<WomanOutfit, WomanOutfitDto>().ReverseMap();
+            CreateMap<Outfit, OutfitDto>().ReverseMap();
             CreateMap<User, UserDto>().ReverseMap();
         }
     }
