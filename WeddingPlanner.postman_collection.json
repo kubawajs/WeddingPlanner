@@ -11,6 +11,21 @@
 				{
 					"name": "Get all guests",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{{{auth_token}}}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -30,6 +45,21 @@
 				{
 					"name": "Create guest",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{{{auth_token}}}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -59,6 +89,21 @@
 				{
 					"name": "Get guests by age",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{{{auth_token}}}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -151,6 +196,21 @@
 				{
 					"name": "Create wedding hall summary",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{{{auth_token}}}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -180,6 +240,21 @@
 				{
 					"name": "Get wedding hall summary",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{{{auth_token}}}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -200,6 +275,21 @@
 				{
 					"name": "Update wedding hall summary",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{{{auth_token}}}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -234,6 +324,21 @@
 				{
 					"name": "Create outfit",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{{{auth_token}}}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -263,6 +368,21 @@
 				{
 					"name": "Get outfit",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{{{auth_token}}}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -288,6 +408,21 @@
 				{
 					"name": "Update outfit",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{{{auth_token}}}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {

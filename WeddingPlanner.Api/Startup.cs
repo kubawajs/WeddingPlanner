@@ -12,9 +12,9 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json.Serialization;
+using WeddingPlanner.Core.Domain;
 using WeddingPlanner.Infrastructure.Data;
 using WeddingPlanner.Infrastructure.IoC;
-using WeddingPlanner.Infrastructure.Models;
 
 namespace WeddingPlanner.Api
 {

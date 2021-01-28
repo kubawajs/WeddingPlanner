@@ -1,11 +1,16 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
-using WeddingPlanner.Infrastructure.Models.Authentication;
 
-namespace WeddingPlanner.Infrastructure.Models
+namespace WeddingPlanner.Core.Domain
 {
     public class User : IdentityUser
     {
+        public User CreatedBy { get; }
+        public User UpdatedBy { get; set; }
+
+        public DateTime CreatedAt { get; }
+        public DateTime UpdatedAt { get; set; }
+
         public User()
         { }
 

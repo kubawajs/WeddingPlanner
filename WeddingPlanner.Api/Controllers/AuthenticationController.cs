@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using WeddingPlanner.Core.Domain;
 using WeddingPlanner.Infrastructure.Models.Authentication;
 using WeddingPlanner.Infrastructure.Services.Abstractions;
 

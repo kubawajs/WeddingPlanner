@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using WeddingPlanner.Core.Domain;
 using WeddingPlanner.Core.Services;
 using WeddingPlanner.Infrastructure.Models.Authentication;
 

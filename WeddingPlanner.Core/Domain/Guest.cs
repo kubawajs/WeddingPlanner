@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using WeddingPlanner.Core.Domain.Abstractions;
 
 namespace WeddingPlanner.Core.Domain

@@ -4,9 +4,9 @@ using WeddingPlanner.Infrastructure.Dto.Abstractions;
 
 namespace WeddingPlanner.Infrastructure.Dto
 {
-    public class OutfitDto : IDto
+    public class OutfitDto : BaseDto
     {
-        public int Id { get; set; }
+        public string Name { get; set; }
         public IEnumerable<CostDescription> Costs { get; set; }
     }
 }

@@ -3,9 +3,8 @@ using WeddingPlanner.Infrastructure.Dto.Abstractions;
 
 namespace WeddingPlanner.Infrastructure.Dto
 {
-    public class GuestDto : IDto
+    public class GuestDto : BaseDto
     {
-        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public bool IsChild { get; set; }

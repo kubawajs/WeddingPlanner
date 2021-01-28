@@ -175,6 +175,12 @@ namespace WeddingPlanner.Infrastructure.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedById")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int?>("WeddingHallId")
                         .HasColumnType("int");
 
@@ -182,9 +188,11 @@ namespace WeddingPlanner.Infrastructure.Migrations
 
                     b.HasIndex("OutfitId");
 
+                    b.HasIndex("UpdatedById");
+
                     b.HasIndex("WeddingHallId");
 
-                    b.ToTable("CostDescription");
+                    b.ToTable("CostDescriptions");
                 });
 
             modelBuilder.Entity("WeddingPlanner.Core.Domain.Guest", b =>
@@ -213,7 +221,15 @@ namespace WeddingPlanner.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedById")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UpdatedById");
 
                     b.ToTable("Guests");
                 });
@@ -225,35 +241,23 @@ namespace WeddingPlanner.Infrastructure.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedById")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UpdatedById");
 
                     b.ToTable("Outfits");
                 });
 
-            modelBuilder.Entity("WeddingPlanner.Core.Domain.WeddingHall", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<int>("ChildAgeFrom")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ChildAgeTo")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("MenuPerPersonId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MenuPerPersonId");
-
-                    b.ToTable("WeddingHalls");
-                });
-
-            modelBuilder.Entity("WeddingPlanner.Infrastructure.Models.User", b =>
+            modelBuilder.Entity("WeddingPlanner.Core.Domain.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -318,6 +322,37 @@ namespace WeddingPlanner.Infrastructure.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("WeddingPlanner.Core.Domain.WeddingHall", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("ChildAgeFrom")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ChildAgeTo")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MenuPerPersonId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedById")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MenuPerPersonId");
+
+                    b.HasIndex("UpdatedById");
+
+                    b.ToTable("WeddingHalls");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -329,7 +364,7 @@ namespace WeddingPlanner.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("WeddingPlanner.Infrastructure.Models.User", null)
+                    b.HasOne("WeddingPlanner.Core.Domain.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -338,7 +373,7 @@ namespace WeddingPlanner.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("WeddingPlanner.Infrastructure.Models.User", null)
+                    b.HasOne("WeddingPlanner.Core.Domain.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -353,7 +388,7 @@ namespace WeddingPlanner.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WeddingPlanner.Infrastructure.Models.User", null)
+                    b.HasOne("WeddingPlanner.Core.Domain.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -362,7 +397,7 @@ namespace WeddingPlanner.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("WeddingPlanner.Infrastructure.Models.User", null)
+                    b.HasOne("WeddingPlanner.Core.Domain.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -375,9 +410,33 @@ namespace WeddingPlanner.Infrastructure.Migrations
                         .WithMany("Costs")
                         .HasForeignKey("OutfitId");
 
+                    b.HasOne("WeddingPlanner.Core.Domain.User", "UpdatedBy")
+                        .WithMany()
+                        .HasForeignKey("UpdatedById");
+
                     b.HasOne("WeddingPlanner.Core.Domain.WeddingHall", null)
                         .WithMany("Costs")
                         .HasForeignKey("WeddingHallId");
+
+                    b.Navigation("UpdatedBy");
+                });
+
+            modelBuilder.Entity("WeddingPlanner.Core.Domain.Guest", b =>
+                {
+                    b.HasOne("WeddingPlanner.Core.Domain.User", "UpdatedBy")
+                        .WithMany()
+                        .HasForeignKey("UpdatedById");
+
+                    b.Navigation("UpdatedBy");
+                });
+
+            modelBuilder.Entity("WeddingPlanner.Core.Domain.Outfit", b =>
+                {
+                    b.HasOne("WeddingPlanner.Core.Domain.User", "UpdatedBy")
+                        .WithMany()
+                        .HasForeignKey("UpdatedById");
+
+                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("WeddingPlanner.Core.Domain.WeddingHall", b =>
@@ -386,7 +445,13 @@ namespace WeddingPlanner.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("MenuPerPersonId");
 
+                    b.HasOne("WeddingPlanner.Core.Domain.User", "UpdatedBy")
+                        .WithMany()
+                        .HasForeignKey("UpdatedById");
+
                     b.Navigation("MenuPerPerson");
+
+                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("WeddingPlanner.Core.Domain.Outfit", b =>

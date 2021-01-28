@@ -47,35 +47,6 @@ namespace WeddingPlanner.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Guests",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    IsChild = table.Column<bool>(type: "bit", nullable: false),
-                    HasPair = table.Column<bool>(type: "bit", nullable: false),
-                    Age = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Guests", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Outfits",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Outfits", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -182,22 +153,53 @@ namespace WeddingPlanner.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "WeddingHalls",
+                name: "Guests",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ChildAgeFrom = table.Column<int>(type: "int", nullable: false),
-                    ChildAgeTo = table.Column<int>(type: "int", nullable: false),
-                    MenuPerPersonId = table.Column<int>(type: "int", nullable: true)
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    IsChild = table.Column<bool>(type: "bit", nullable: false),
+                    HasPair = table.Column<bool>(type: "bit", nullable: false),
+                    Age = table.Column<int>(type: "int", nullable: false),
+                    UpdatedById = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WeddingHalls", x => x.Id);
+                    table.PrimaryKey("PK_Guests", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Guests_AspNetUsers_UpdatedById",
+                        column: x => x.UpdatedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "CostDescription",
+                name: "Outfits",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedById = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Outfits", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Outfits_AspNetUsers_UpdatedById",
+                        column: x => x.UpdatedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CostDescriptions",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -207,21 +209,52 @@ namespace WeddingPlanner.Infrastructure.Migrations
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
                     OutfitId = table.Column<int>(type: "int", nullable: true),
-                    WeddingHallId = table.Column<int>(type: "int", nullable: true)
+                    WeddingHallId = table.Column<int>(type: "int", nullable: true),
+                    UpdatedById = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CostDescription", x => x.Id);
+                    table.PrimaryKey("PK_CostDescriptions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CostDescription_Outfits_OutfitId",
+                        name: "FK_CostDescriptions_AspNetUsers_UpdatedById",
+                        column: x => x.UpdatedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CostDescriptions_Outfits_OutfitId",
                         column: x => x.OutfitId,
                         principalTable: "Outfits",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "WeddingHalls",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ChildAgeFrom = table.Column<int>(type: "int", nullable: false),
+                    ChildAgeTo = table.Column<int>(type: "int", nullable: false),
+                    MenuPerPersonId = table.Column<int>(type: "int", nullable: true),
+                    UpdatedById = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WeddingHalls", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CostDescription_WeddingHalls_WeddingHallId",
-                        column: x => x.WeddingHallId,
-                        principalTable: "WeddingHalls",
+                        name: "FK_WeddingHalls_AspNetUsers_UpdatedById",
+                        column: x => x.UpdatedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_WeddingHalls_CostDescriptions_MenuPerPersonId",
+                        column: x => x.MenuPerPersonId,
+                        principalTable: "CostDescriptions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -266,25 +299,45 @@ namespace WeddingPlanner.Infrastructure.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CostDescription_OutfitId",
-                table: "CostDescription",
+                name: "IX_CostDescriptions_OutfitId",
+                table: "CostDescriptions",
                 column: "OutfitId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CostDescription_WeddingHallId",
-                table: "CostDescription",
+                name: "IX_CostDescriptions_UpdatedById",
+                table: "CostDescriptions",
+                column: "UpdatedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CostDescriptions_WeddingHallId",
+                table: "CostDescriptions",
                 column: "WeddingHallId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Guests_UpdatedById",
+                table: "Guests",
+                column: "UpdatedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Outfits_UpdatedById",
+                table: "Outfits",
+                column: "UpdatedById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_WeddingHalls_MenuPerPersonId",
                 table: "WeddingHalls",
                 column: "MenuPerPersonId");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_WeddingHalls_CostDescription_MenuPerPersonId",
+            migrationBuilder.CreateIndex(
+                name: "IX_WeddingHalls_UpdatedById",
                 table: "WeddingHalls",
-                column: "MenuPerPersonId",
-                principalTable: "CostDescription",
+                column: "UpdatedById");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_CostDescriptions_WeddingHalls_WeddingHallId",
+                table: "CostDescriptions",
+                column: "WeddingHallId",
+                principalTable: "WeddingHalls",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
         }
@@ -292,12 +345,24 @@ namespace WeddingPlanner.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_CostDescription_Outfits_OutfitId",
-                table: "CostDescription");
+                name: "FK_CostDescriptions_AspNetUsers_UpdatedById",
+                table: "CostDescriptions");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_CostDescription_WeddingHalls_WeddingHallId",
-                table: "CostDescription");
+                name: "FK_Outfits_AspNetUsers_UpdatedById",
+                table: "Outfits");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_WeddingHalls_AspNetUsers_UpdatedById",
+                table: "WeddingHalls");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_CostDescriptions_Outfits_OutfitId",
+                table: "CostDescriptions");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_CostDescriptions_WeddingHalls_WeddingHallId",
+                table: "CostDescriptions");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -330,7 +395,7 @@ namespace WeddingPlanner.Infrastructure.Migrations
                 name: "WeddingHalls");
 
             migrationBuilder.DropTable(
-                name: "CostDescription");
+                name: "CostDescriptions");
         }
     }
 }

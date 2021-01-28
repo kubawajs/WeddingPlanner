@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using WeddingPlanner.Infrastructure.Dto;
@@ -7,6 +8,7 @@ using WeddingPlanner.Infrastructure.Services.Abstractions;
 
 namespace WeddingPlanner.Api.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     [Route("api/outfits")]
     public class OutfitsController : Controller

@@ -4,9 +4,8 @@ using WeddingPlanner.Infrastructure.Dto.Abstractions;
 
 namespace WeddingPlanner.Infrastructure.Dto
 {
-    public class WeddingHallDto : IDto
+    public class WeddingHallDto : BaseDto
     {
-        public int Id { get; set; }
         public int ChildAgeFrom { get; set; }
         public int ChildAgeTo { get; set; }
         public CostDescription MenuPerPerson { get; set; }

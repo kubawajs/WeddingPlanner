@@ -4,7 +4,7 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using WeddingPlanner.Infrastructure.Models;
+using WeddingPlanner.Core.Domain;
 using WeddingPlanner.Infrastructure.Services.Abstractions;
 
 namespace WeddingPlanner.Infrastructure.Services

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WeddingPlanner.Infrastructure.Models.Authentication
+namespace WeddingPlanner.Core.Domain
 {
     public class RegisterModel
     {

@@ -2,7 +2,7 @@
 
 namespace WeddingPlanner.Infrastructure.Dto
 {
-    public class UserDto : IDto
+    public class UserDto : BaseDto
     {
         public string Username { get; set; }
         public string Email { get; set; }
