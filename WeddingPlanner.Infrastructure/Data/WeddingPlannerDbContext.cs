@@ -10,6 +10,7 @@ namespace WeddingPlanner.Infrastructure.Data
         public DbSet<Guest> Guests { get; set; }
         public DbSet<WeddingHall> WeddingHalls { get; set; }
         public DbSet<Outfit> Outfits { get; internal set; }
+        public DbSet<CostDescription> CostDescriptions { get; set; }
 
         public WeddingPlannerDbContext(DbContextOptions<WeddingPlannerDbContext> options)
             : base(options)
@@ -19,12 +20,6 @@ namespace WeddingPlanner.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
-            // Man outfit model
-            //builder.Entity<ManOutfit>()
-            //       .HasOne(x => x.Suit)
-            //       .WithOne(x => x.ManOutfitItem)
-            //       .HasForeignKey<CostDescription>(x => x.ManOutfitItemId);
         }
     }
 }

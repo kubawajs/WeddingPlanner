@@ -20,7 +20,7 @@ namespace WeddingPlanner.Api.Controllers
             _guestService = guestService;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
         [ProducesResponseType(typeof(GuestListResponse), 200)]
         [ProducesResponseType(typeof(GuestListResponse), 400)]
         public async Task<IActionResult> Index([FromQuery] int? age = null)

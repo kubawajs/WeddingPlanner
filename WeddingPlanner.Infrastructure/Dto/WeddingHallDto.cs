@@ -10,6 +10,6 @@ namespace WeddingPlanner.Infrastructure.Dto
         public int ChildAgeFrom { get; set; }
         public int ChildAgeTo { get; set; }
         public CostDescription MenuPerPerson { get; set; }
-        public IEnumerable<CostDescription> AdditionalCosts { get; set; }
+        public IEnumerable<CostDescription> Costs { get; set; }
     }
 }
