@@ -43,6 +43,9 @@ namespace WeddingPlanner.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WeddingPlanner.Api", Version = "v1" });
             });
 
+            // Http Context
+            services.AddHttpContextAccessor();
+
             // Entity Framework
             services.AddDbContext<WeddingPlannerDbContext>(
                 opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

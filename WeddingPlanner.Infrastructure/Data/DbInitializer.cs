@@ -58,12 +58,6 @@ namespace WeddingPlanner.Infrastructure.Data
                 {
                     ChildAgeFrom = 5,
                     ChildAgeTo = 10,
-                    MenuPerPerson = new CostDescription
-                    {
-                        Label = "Menu (os.)",
-                        Description = "Koszt menu dla jednego gościa.",
-                        Price = 184
-                    },
                     Costs = new List<CostDescription>(),
                 });
             }

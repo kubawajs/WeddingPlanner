@@ -6,10 +6,10 @@ namespace WeddingPlanner.Infrastructure.Dto.Abstractions
     {
         public int Id { get; set; }
 
-        public UserDto CreatedBy { get; }
+        public UserDto CreatedBy { get; set; }
         public UserDto UpdatedBy { get; set; }
 
-        public DateTime CreatedAt { get; }
-        public DateTime UpdatedAt { get; set; }
+        public DateTime CreatedOn { get; }
+        public DateTime UpdatedOn { get; set; }
     }
 }

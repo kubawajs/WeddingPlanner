@@ -22,17 +22,24 @@ namespace WeddingPlanner.Infrastructure.Repository
 
         public override async Task<Guest> GetAsync(int id)
         {
-            return await Context.Guests.FirstOrDefaultAsync(x => x.Id == id);
+            return await Context.Guests.Include(x => x.UpdatedBy)
+                                       .Include(x => x.CreatedBy)
+                                       .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public override async Task<IEnumerable<Guest>> GetAllAsync()
         {
-            return await Context.Guests.ToListAsync();
+            return await Context.Guests.Include(x => x.CreatedBy)
+                                       .Include(x => x.UpdatedBy)
+                                       .ToListAsync();
         }
 
         public async Task<IEnumerable<Guest>> GetGuestsByAgeAsync(int age)
         {
-            return await Context.Guests.Where(x => x.Age >= age || !x.IsChild).ToListAsync();
+            return await Context.Guests.Include(x => x.CreatedBy)
+                                       .Include(x => x.UpdatedBy)
+                                       .Where(x => x.Age >= age || !x.IsChild)
+                                       .ToListAsync();
         }
 
         public async Task<int> GetAllGuestsCountAsync(int age = 0)

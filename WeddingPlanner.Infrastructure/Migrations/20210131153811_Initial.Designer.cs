@@ -10,7 +10,7 @@ using WeddingPlanner.Infrastructure.Data;
 namespace WeddingPlanner.Infrastructure.Migrations
 {
     [DbContext(typeof(WeddingPlannerDbContext))]
-    [Migration("20210128223242_Initial")]
+    [Migration("20210131153811_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -159,6 +159,12 @@ namespace WeddingPlanner.Infrastructure.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<string>("CreatedByUsername")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -177,20 +183,22 @@ namespace WeddingPlanner.Infrastructure.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedById")
+                    b.Property<string>("UpdatedByUsername")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("WeddingHallId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CreatedByUsername");
+
                     b.HasIndex("OutfitId");
 
-                    b.HasIndex("UpdatedById");
+                    b.HasIndex("UpdatedByUsername");
 
                     b.HasIndex("WeddingHallId");
 
@@ -206,6 +214,12 @@ namespace WeddingPlanner.Infrastructure.Migrations
 
                     b.Property<int>("Age")
                         .HasColumnType("int");
+
+                    b.Property<string>("CreatedByUsername")
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -223,15 +237,17 @@ namespace WeddingPlanner.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("UpdatedByUsername")
+                        .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("UpdatedById")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UpdatedById");
+                    b.HasIndex("CreatedByUsername");
+
+                    b.HasIndex("UpdatedByUsername");
 
                     b.ToTable("Guests");
                 });
@@ -243,18 +259,26 @@ namespace WeddingPlanner.Infrastructure.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<string>("CreatedByUsername")
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("UpdatedByUsername")
+                        .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("UpdatedById")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UpdatedById");
+                    b.HasIndex("CreatedByUsername");
+
+                    b.HasIndex("UpdatedByUsername");
 
                     b.ToTable("Outfits");
                 });
@@ -307,7 +331,11 @@ namespace WeddingPlanner.Infrastructure.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("UserName")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -337,20 +365,23 @@ namespace WeddingPlanner.Infrastructure.Migrations
                     b.Property<int>("ChildAgeTo")
                         .HasColumnType("int");
 
-                    b.Property<int?>("MenuPerPersonId")
-                        .HasColumnType("int");
+                    b.Property<string>("CreatedByUsername")
+                        .HasColumnType("nvarchar(256)");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UpdatedById")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("UpdatedByUsername")
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MenuPerPersonId");
+                    b.HasIndex("CreatedByUsername");
 
-                    b.HasIndex("UpdatedById");
+                    b.HasIndex("UpdatedByUsername");
 
                     b.ToTable("WeddingHalls");
                 });
@@ -408,50 +439,74 @@ namespace WeddingPlanner.Infrastructure.Migrations
 
             modelBuilder.Entity("WeddingPlanner.Core.Domain.CostDescription", b =>
                 {
+                    b.HasOne("WeddingPlanner.Core.Domain.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedByUsername");
+
                     b.HasOne("WeddingPlanner.Core.Domain.Outfit", null)
                         .WithMany("Costs")
                         .HasForeignKey("OutfitId");
 
                     b.HasOne("WeddingPlanner.Core.Domain.User", "UpdatedBy")
                         .WithMany()
-                        .HasForeignKey("UpdatedById");
+                        .HasForeignKey("UpdatedByUsername");
 
                     b.HasOne("WeddingPlanner.Core.Domain.WeddingHall", null)
                         .WithMany("Costs")
                         .HasForeignKey("WeddingHallId");
+
+                    b.Navigation("CreatedBy");
 
                     b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("WeddingPlanner.Core.Domain.Guest", b =>
                 {
+                    b.HasOne("WeddingPlanner.Core.Domain.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedByUsername")
+                        .HasPrincipalKey("UserName");
+
                     b.HasOne("WeddingPlanner.Core.Domain.User", "UpdatedBy")
                         .WithMany()
-                        .HasForeignKey("UpdatedById");
+                        .HasForeignKey("UpdatedByUsername")
+                        .HasPrincipalKey("UserName");
+
+                    b.Navigation("CreatedBy");
 
                     b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("WeddingPlanner.Core.Domain.Outfit", b =>
                 {
+                    b.HasOne("WeddingPlanner.Core.Domain.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedByUsername")
+                        .HasPrincipalKey("UserName");
+
                     b.HasOne("WeddingPlanner.Core.Domain.User", "UpdatedBy")
                         .WithMany()
-                        .HasForeignKey("UpdatedById");
+                        .HasForeignKey("UpdatedByUsername")
+                        .HasPrincipalKey("UserName");
+
+                    b.Navigation("CreatedBy");
 
                     b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("WeddingPlanner.Core.Domain.WeddingHall", b =>
                 {
-                    b.HasOne("WeddingPlanner.Core.Domain.CostDescription", "MenuPerPerson")
+                    b.HasOne("WeddingPlanner.Core.Domain.User", "CreatedBy")
                         .WithMany()
-                        .HasForeignKey("MenuPerPersonId");
+                        .HasForeignKey("CreatedByUsername")
+                        .HasPrincipalKey("UserName");
 
                     b.HasOne("WeddingPlanner.Core.Domain.User", "UpdatedBy")
                         .WithMany()
-                        .HasForeignKey("UpdatedById");
+                        .HasForeignKey("UpdatedByUsername")
+                        .HasPrincipalKey("UserName");
 
-                    b.Navigation("MenuPerPerson");
+                    b.Navigation("CreatedBy");
 
                     b.Navigation("UpdatedBy");
                 });

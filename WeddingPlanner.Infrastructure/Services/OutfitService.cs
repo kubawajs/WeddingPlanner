@@ -13,7 +13,8 @@ namespace WeddingPlanner.Infrastructure.Services
     {
         public OutfitService(
             IOutfitRepository manOutfitRepository,
-            IMapper mapper) : base(manOutfitRepository, mapper)
+            IMapper mapper)
+            : base(manOutfitRepository, mapper)
         { }
 
         protected override OutfitResponse<OutfitDto> CreateErrorResponse(string message)

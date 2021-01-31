@@ -21,11 +21,15 @@ namespace WeddingPlanner.Infrastructure.Repository
 
         public override async Task<IEnumerable<Outfit>> GetAllAsync()
         {
-            return await Context.Outfits.ToListAsync();
+            return await Context.Outfits.Include(x => x.CreatedBy)
+                                        .Include(x => x.UpdatedBy)
+                                        .ToListAsync();
         }
 
         public override async Task<Outfit> GetAsync(int id) 
             => await Context.Outfits.Include(x => x.Costs)
+                                    .Include(x => x.CreatedBy)
+                                    .Include(x => x.UpdatedBy)
                                     .FirstOrDefaultAsync(x => x.Id == id);
     }
 }

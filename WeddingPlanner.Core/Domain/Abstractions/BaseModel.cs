@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WeddingPlanner.Core.Domain.Abstractions
 {
@@ -8,17 +9,22 @@ namespace WeddingPlanner.Core.Domain.Abstractions
         [Key]
         public int Id { get; set; }
 
-        public User CreatedBy { get; }
-        public User UpdatedBy { get; set; }
+        [ForeignKey("CreatedByUsername")]
+        public User CreatedBy { get; set; }
+        public string CreatedByUsername { get; set; }
 
-        public DateTime CreatedAt { get; }
-        public DateTime UpdatedAt { get; set; }
+        [ForeignKey("UpdatedByUsername")]
+        public User UpdatedBy { get; set; }
+        public string UpdatedByUsername { get; set; }
+
+        public DateTime CreatedOn { get; set; }
+        public DateTime UpdatedOn { get; set; }
 
         public BaseModel()
         {
             var now = DateTime.Now;
-            CreatedAt = now;
-            UpdatedAt = now;
+            CreatedOn = now;
+            UpdatedOn = now;
         }
     }
 }

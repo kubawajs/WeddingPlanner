@@ -17,7 +17,8 @@ namespace WeddingPlanner.Infrastructure.Services
         public WeddingHallService(
             IWeddingHallRespository weddingHallRespository,
             IGuestRepository guestRepository,
-            IMapper mapper) : base(weddingHallRespository, mapper)
+            IMapper mapper) 
+            : base(weddingHallRespository, mapper)
         {
             _guestRepository = guestRepository;
         }

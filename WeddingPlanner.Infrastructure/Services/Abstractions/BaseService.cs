@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Threading.Tasks;
 using WeddingPlanner.Core.Domain.Abstractions;
@@ -25,18 +26,18 @@ namespace WeddingPlanner.Infrastructure.Services.Abstractions
             Mapper = mapper;
         }
 
-        public virtual async Task<TResponse> CreateAsync(TDto model)
+        public virtual async Task<TResponse> CreateAsync(TDto dtoModel)
         {
             try
             {
-                var outfit = Mapper.Map<TModel>(model);
-                if(outfit == null)
+                var model = Mapper.Map<TModel>(dtoModel);
+                if(model == null)
                 {
                     throw new Exception($"{typeof(TDto).Name} cannot be null.");
                 }
 
-                await Repository.CreateAsync(outfit);
-                return CreateSuccessResponse($"{typeof(TDto).Name} successfully created", model);
+                await Repository.CreateAsync(model);
+                return CreateSuccessResponse($"{typeof(TDto).Name} successfully created", dtoModel);
             }
             catch (Exception ex)
             {

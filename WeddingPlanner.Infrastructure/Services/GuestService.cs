@@ -14,7 +14,9 @@ namespace WeddingPlanner.Infrastructure.Services
 {
     public class GuestService : BaseService<GuestDto, Guest, IGuestRepository, GuestResponse>, IGuestService
     {
-        public GuestService(IMapper mapper, IGuestRepository repository)
+        public GuestService(
+            IMapper mapper, 
+            IGuestRepository repository)
             : base(repository, mapper)
         { }
 
