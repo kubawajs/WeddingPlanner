@@ -8,6 +8,8 @@ WeddingPlanner API and application.
 
 ## Getting Started
 
+### Backend
+
 1. Clone repository. Open solution file in Visual Studio.
 2. Restore nuget packages.
 3. Build solution.
@@ -16,6 +18,10 @@ WeddingPlanner API and application.
 dotnet ef --startup-project ..\WeddingPlanner.Api\ database update
 ```
 5. Run application.
+
+### Frontend
+
+Work in progress...
 
 ## Built With
 
@@ -34,73 +40,14 @@ Postman collection with API request examples is available in the repo root - [We
 ### Authentication
 
 API uses JWT for authentication.
-
 Roles - TODO
 
-#### Register
-
-**Endpoint:**
-
-```
-{api_url}/api/authentication/register
-```
-
-Request body:
-
-```json
-{
-  "username": "TestUser",
-  "email": "user@example.com",
-  "password": "TestUser123$"
-}
-```
-
-Response body:
-```json
-{
-  "result": true,
-  "status": "Success",
-  "message": "string",
-  "item": {
-    "username": "string",
-    "email": "string"
-  },
-  "token": "string",
-  "expiration": "2021-01-19T23:48:48.943Z"
-}
-```
-
-#### Login
-
-**Endpoint:**
-
-```
-{api_url}/api/authentication/login
-```
-
-Request body:
-
-```json
-{
-  "username": "TestUser",
-  "password": "TestUser123$"
-}
-```
-
-Response body:
-```json
-{
-  "result": true,
-  "status": "Success",
-  "message": "string",
-  "item": {
-    "username": "string",
-    "email": "string"
-  }
-}
-```
-
 ### Key Features
+
+#### Users
+
+* Register user
+* Login user
 
 #### Guests
 
