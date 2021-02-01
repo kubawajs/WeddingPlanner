@@ -3,7 +3,7 @@ using WeddingPlanner.Core.Services;
 using WeddingPlanner.Infrastructure.Dto.Abstractions;
 using WeddingPlanner.Infrastructure.Models.Abstractions;
 
-namespace WeddingPlanner.Infrastructure.Services.Abstractions
+namespace WeddingPlanner.Api.Services.Abstractions
 {
     public interface IBaseService<TDto, TResponse> : IService
         where TDto : IDto

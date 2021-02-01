@@ -3,15 +3,15 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks;
+using WeddingPlanner.Api.Services.Abstractions;
 using WeddingPlanner.Core.Domain;
 using WeddingPlanner.Infrastructure.Dto;
 using WeddingPlanner.Infrastructure.Extensions;
-using WeddingPlanner.Infrastructure.Models;
 using WeddingPlanner.Infrastructure.Models.Abstractions;
 using WeddingPlanner.Infrastructure.Models.Authentication;
 using WeddingPlanner.Infrastructure.Services.Abstractions;
 
-namespace WeddingPlanner.Infrastructure.Services
+namespace WeddingPlanner.Api.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
@@ -34,7 +34,7 @@ namespace WeddingPlanner.Infrastructure.Services
 
         public async Task<LoginResponse> AuthenticateAsync(LoginModel loginModel)
         {
-            if(loginModel == null)
+            if (loginModel == null)
             {
                 return new LoginResponse(
                     BaseApiResponse<UserDto>.CreateErrorResponse("LoginModel cannot be null."));

@@ -5,10 +5,10 @@ using Moq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WeddingPlanner.Api.Controllers;
+using WeddingPlanner.Api.Services.Abstractions;
 using WeddingPlanner.Infrastructure.Dto;
 using WeddingPlanner.Infrastructure.Models;
 using WeddingPlanner.Infrastructure.Models.Abstractions;
-using WeddingPlanner.Infrastructure.Services.Abstractions;
 using Xunit;
 
 namespace WeddingPlanner.Tests.Controllers

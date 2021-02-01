@@ -1,16 +1,15 @@
 ﻿using AutoMapper;
 using FluentAssertions;
-using Microsoft.AspNetCore.Http;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WeddingPlanner.Api.Services;
 using WeddingPlanner.Core.Domain;
 using WeddingPlanner.Infrastructure.Dto;
 using WeddingPlanner.Infrastructure.Models;
 using WeddingPlanner.Infrastructure.Models.Abstractions;
 using WeddingPlanner.Infrastructure.Repository.Abstractions;
-using WeddingPlanner.Infrastructure.Services;
 using Xunit;
 
 namespace WeddingPlanner.Tests.Services

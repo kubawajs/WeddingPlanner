@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using System;
 using System.Threading.Tasks;
 using WeddingPlanner.Core.Domain.Abstractions;
@@ -7,7 +6,7 @@ using WeddingPlanner.Infrastructure.Dto.Abstractions;
 using WeddingPlanner.Infrastructure.Models.Abstractions;
 using WeddingPlanner.Infrastructure.Repository.Abstractions;
 
-namespace WeddingPlanner.Infrastructure.Services.Abstractions
+namespace WeddingPlanner.Api.Services.Abstractions
 {
     public abstract class BaseService<TDto, TModel, TRepository, TResponse> : IBaseService<TDto, TResponse>
         where TDto : IDto
@@ -31,7 +30,7 @@ namespace WeddingPlanner.Infrastructure.Services.Abstractions
             try
             {
                 var model = Mapper.Map<TModel>(dtoModel);
-                if(model == null)
+                if (model == null)
                 {
                     throw new Exception($"{typeof(TDto).Name} cannot be null.");
                 }

@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using FluentAssertions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WeddingPlanner.Api.Services;
 using WeddingPlanner.Core.Domain;
 using WeddingPlanner.Infrastructure.Data;
 using WeddingPlanner.Infrastructure.Dto;
@@ -32,7 +35,8 @@ namespace WeddingPlanner.Tests.Services
             var mapperConfig = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
             var mapper = mapperConfig.CreateMapper();
             var options = await SetupTestDatabaseAsync(_guests);
-            var guestRepository = new GuestRepository(new WeddingPlannerDbContext(options));
+            var httpContextAccessor = new Mock<IHttpContextAccessor>();
+            var guestRepository = new GuestRepository(new WeddingPlannerDbContext(options, httpContextAccessor.Object));
             var guestService = new GuestService(mapper, guestRepository);
 
             // Act
@@ -44,7 +48,7 @@ namespace WeddingPlanner.Tests.Services
             await guestService.CreateAsync(guestDto);
 
             // Assert
-            using var context = new WeddingPlannerDbContext(options);
+            using var context = new WeddingPlannerDbContext(options, httpContextAccessor.Object);
             var guests = await context.Guests.ToListAsync();
             var guest = await context.Guests.SingleAsync(x => x.Id == 4);
 
@@ -61,7 +65,8 @@ namespace WeddingPlanner.Tests.Services
             var mapperConfig = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
             var mapper = mapperConfig.CreateMapper();
             var options = await SetupTestDatabaseAsync(_guests);
-            var guestRepository = new GuestRepository(new WeddingPlannerDbContext(options));
+            var httpContextAccessor = new Mock<IHttpContextAccessor>();
+            var guestRepository = new GuestRepository(new WeddingPlannerDbContext(options, httpContextAccessor.Object));
             var guestService = new GuestService(mapper, guestRepository);
 
             // Act
@@ -81,7 +86,8 @@ namespace WeddingPlanner.Tests.Services
             var mapperConfig = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
             var mapper = mapperConfig.CreateMapper();
             var options = await SetupTestDatabaseAsync(new List<Guest>());
-            var guestRepository = new GuestRepository(new WeddingPlannerDbContext(options));
+            var httpContextAccessor = new Mock<IHttpContextAccessor>();
+            var guestRepository = new GuestRepository(new WeddingPlannerDbContext(options, httpContextAccessor.Object));
             var guestService = new GuestService(mapper, guestRepository);
 
             // Act
@@ -102,7 +108,8 @@ namespace WeddingPlanner.Tests.Services
             var mapperConfig = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
             var mapper = mapperConfig.CreateMapper();
             var options = await SetupTestDatabaseAsync(_guests);
-            var guestRepository = new GuestRepository(new WeddingPlannerDbContext(options));
+            var httpContextAccessor = new Mock<IHttpContextAccessor>();
+            var guestRepository = new GuestRepository(new WeddingPlannerDbContext(options, httpContextAccessor.Object));
             var guestService = new GuestService(mapper, guestRepository);
 
             // Act
@@ -123,7 +130,8 @@ namespace WeddingPlanner.Tests.Services
             var mapperConfig = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
             var mapper = mapperConfig.CreateMapper();
             var options = await SetupTestDatabaseAsync(_guests);
-            var guestRepository = new GuestRepository(new WeddingPlannerDbContext(options));
+            var httpContextAccessor = new Mock<IHttpContextAccessor>();
+            var guestRepository = new GuestRepository(new WeddingPlannerDbContext(options, httpContextAccessor.Object));
             var guestService = new GuestService(mapper, guestRepository);
 
             // Act
@@ -148,7 +156,8 @@ namespace WeddingPlanner.Tests.Services
                 .UseInMemoryDatabase(databaseName: dbName).Options;
 
             // Seed
-            using (var context = new WeddingPlannerDbContext(options))
+            var httpContextAccessor = new Mock<IHttpContextAccessor>();
+            using (var context = new WeddingPlannerDbContext(options, httpContextAccessor.Object))
             {
                 foreach(var item in items)
                 {

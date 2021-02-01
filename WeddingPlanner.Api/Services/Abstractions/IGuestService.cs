@@ -2,7 +2,7 @@
 using WeddingPlanner.Infrastructure.Dto;
 using WeddingPlanner.Infrastructure.Models;
 
-namespace WeddingPlanner.Infrastructure.Services.Abstractions
+namespace WeddingPlanner.Api.Services.Abstractions
 {
     public interface IGuestService : IBaseService<GuestDto, GuestResponse>
     {

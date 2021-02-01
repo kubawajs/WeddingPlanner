@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
+using WeddingPlanner.Api.Services.Abstractions;
 using WeddingPlanner.Core.Domain;
 using WeddingPlanner.Infrastructure.Dto;
 using WeddingPlanner.Infrastructure.Models;
 using WeddingPlanner.Infrastructure.Models.Abstractions;
 using WeddingPlanner.Infrastructure.Repository.Abstractions;
-using WeddingPlanner.Infrastructure.Services.Abstractions;
 
-namespace WeddingPlanner.Infrastructure.Services
+namespace WeddingPlanner.Api.Services
 {
     public class OutfitService
         : BaseService<OutfitDto, Outfit, IOutfitRepository, OutfitResponse<OutfitDto>>, IOutfitService

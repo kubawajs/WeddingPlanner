@@ -3,7 +3,7 @@ using WeddingPlanner.Core.Domain;
 using WeddingPlanner.Core.Services;
 using WeddingPlanner.Infrastructure.Models.Authentication;
 
-namespace WeddingPlanner.Infrastructure.Services.Abstractions
+namespace WeddingPlanner.Api.Services.Abstractions
 {
     public interface IAuthenticationService : IService
     {

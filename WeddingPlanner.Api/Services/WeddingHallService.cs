@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
 using System;
 using System.Threading.Tasks;
+using WeddingPlanner.Api.Services.Abstractions;
 using WeddingPlanner.Core.Domain;
 using WeddingPlanner.Infrastructure.Dto;
 using WeddingPlanner.Infrastructure.Models;
 using WeddingPlanner.Infrastructure.Models.Abstractions;
 using WeddingPlanner.Infrastructure.Repository.Abstractions;
-using WeddingPlanner.Infrastructure.Services.Abstractions;
 
-namespace WeddingPlanner.Infrastructure.Services
+namespace WeddingPlanner.Api.Services
 {
     public class WeddingHallService : BaseService<WeddingHallDto, WeddingHall, IWeddingHallRespository, WeddingHallSummaryResponse>, IWeddingHallService
     {
@@ -17,7 +17,7 @@ namespace WeddingPlanner.Infrastructure.Services
         public WeddingHallService(
             IWeddingHallRespository weddingHallRespository,
             IGuestRepository guestRepository,
-            IMapper mapper) 
+            IMapper mapper)
             : base(weddingHallRespository, mapper)
         {
             _guestRepository = guestRepository;
@@ -50,7 +50,7 @@ namespace WeddingPlanner.Infrastructure.Services
 
                 return await CreateWeddingHallSummaryResponseAsync(weddingHall, "Wedding hall summary successfully retrieved.");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return CreateErrorResponse($"An error occured during wedding hall summary creation: {ex.Message}");
             }
@@ -64,13 +64,13 @@ namespace WeddingPlanner.Infrastructure.Services
                 await Repository.UpdateAsync(weddingHall);
                 return await CreateWeddingHallSummaryResponseAsync(weddingHall, "Wedding hall summary successfully updated.");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return CreateErrorResponse($"An error occured during wedding hall summary update: {ex.Message}");
             }
         }
 
-        protected override WeddingHallSummaryResponse CreateErrorResponse(string message) 
+        protected override WeddingHallSummaryResponse CreateErrorResponse(string message)
             => new WeddingHallSummaryResponse(BaseApiResponse<WeddingHallDto>.CreateErrorResponse(message));
 
         protected override WeddingHallSummaryResponse CreateSuccessResponse(string message, WeddingHallDto item)
