@@ -8,9 +8,9 @@ namespace WeddingPlanner.Infrastructure.Repository.Abstractions
     public interface IBaseRepository<TModel> : IRepository
         where TModel : BaseModel
     {
-        public Task CreateAsync(TModel model);
-        public Task<TModel> GetAsync(int id);
+        Task CreateAsync(TModel model);
+        Task<TModel> GetAsync(int id);
         Task<IEnumerable<TModel>> GetAllAsync();
-        public Task UpdateAsync(TModel model);
+        Task UpdateAsync(TModel model);
     }
 }
