@@ -1,6 +1,7 @@
 ﻿using WeddingPlanner.Infrastructure.Dto.Abstractions;
+using WeddingPlanner.Infrastructure.Models;
 
-namespace WeddingPlanner.Infrastructure.Models.Abstractions
+namespace WeddingPlanner.Api.Models.Abstractions
 {
     public class BaseApiResponse<TDto>
         where TDto : IDto

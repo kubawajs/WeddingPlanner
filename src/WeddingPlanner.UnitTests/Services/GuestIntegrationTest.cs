@@ -7,14 +7,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WeddingPlanner.Api.Models;
 using WeddingPlanner.Api.Services;
 using WeddingPlanner.Core.Domain;
 using WeddingPlanner.Infrastructure.Data;
 using WeddingPlanner.Infrastructure.Dto;
 using WeddingPlanner.Infrastructure.Mapping;
-using WeddingPlanner.Infrastructure.Models;
 using WeddingPlanner.Infrastructure.Repository;
-using WeddingPlanner.Infrastructure.Services;
 using Xunit;
 
 namespace WeddingPlanner.Tests.Services

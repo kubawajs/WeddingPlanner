@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks;
+using WeddingPlanner.Api.Models.Abstractions;
+using WeddingPlanner.Api.Models.Authentication;
 using WeddingPlanner.Api.Services.Abstractions;
 using WeddingPlanner.Core.Domain;
 using WeddingPlanner.Infrastructure.Dto;
 using WeddingPlanner.Infrastructure.Extensions;
-using WeddingPlanner.Infrastructure.Models.Abstractions;
-using WeddingPlanner.Infrastructure.Models.Authentication;
 using WeddingPlanner.Infrastructure.Services.Abstractions;
 
 namespace WeddingPlanner.Api.Services

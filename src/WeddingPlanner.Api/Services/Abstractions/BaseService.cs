@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using System;
 using System.Threading.Tasks;
+using WeddingPlanner.Api.Models.Abstractions;
 using WeddingPlanner.Core.Domain.Abstractions;
 using WeddingPlanner.Infrastructure.Dto.Abstractions;
-using WeddingPlanner.Infrastructure.Models.Abstractions;
 using WeddingPlanner.Infrastructure.Repository.Abstractions;
 
 namespace WeddingPlanner.Api.Services.Abstractions

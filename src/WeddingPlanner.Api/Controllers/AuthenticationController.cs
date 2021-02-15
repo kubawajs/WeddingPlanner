@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using WeddingPlanner.Api.Models.Authentication;
 using WeddingPlanner.Api.Services.Abstractions;
 using WeddingPlanner.Core.Domain;
-using WeddingPlanner.Infrastructure.Models.Authentication;
 
 namespace WeddingPlanner.Api.Controllers
 {

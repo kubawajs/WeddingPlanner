@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using WeddingPlanner.Api.Models;
 using WeddingPlanner.Api.Services.Abstractions;
 using WeddingPlanner.Infrastructure.Dto;
-using WeddingPlanner.Infrastructure.Models;
 
 namespace WeddingPlanner.Api.Controllers
 {

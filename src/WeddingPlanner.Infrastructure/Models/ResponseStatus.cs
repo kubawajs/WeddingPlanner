@@ -1,4 +1,4 @@
-﻿namespace WeddingPlanner.Infrastructure.Models.Abstractions
+﻿namespace WeddingPlanner.Infrastructure.Models
 {
     public enum ResponseStatus
     {

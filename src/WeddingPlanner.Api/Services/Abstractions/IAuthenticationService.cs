@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
+using WeddingPlanner.Api.Models.Authentication;
 using WeddingPlanner.Core.Domain;
 using WeddingPlanner.Core.Services;
-using WeddingPlanner.Infrastructure.Models.Authentication;
 
 namespace WeddingPlanner.Api.Services.Abstractions
 {

@@ -1,7 +1,8 @@
 ﻿using FluentAssertions;
 using Moq;
+using WeddingPlanner.Api.Models.Abstractions;
 using WeddingPlanner.Infrastructure.Dto.Abstractions;
-using WeddingPlanner.Infrastructure.Models.Abstractions;
+using WeddingPlanner.Infrastructure.Models;
 using Xunit;
 
 namespace WeddingPlanner.Tests.Models

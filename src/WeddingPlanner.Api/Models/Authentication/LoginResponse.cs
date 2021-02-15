@@ -1,8 +1,8 @@
 ﻿using System;
+using WeddingPlanner.Api.Models.Abstractions;
 using WeddingPlanner.Infrastructure.Dto;
-using WeddingPlanner.Infrastructure.Models.Abstractions;
 
-namespace WeddingPlanner.Infrastructure.Models.Authentication
+namespace WeddingPlanner.Api.Models.Authentication
 {
     public class LoginResponse : BaseApiResponse<UserDto>
     {

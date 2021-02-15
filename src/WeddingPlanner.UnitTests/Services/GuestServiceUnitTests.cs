@@ -4,11 +4,11 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WeddingPlanner.Api.Models;
 using WeddingPlanner.Api.Services;
 using WeddingPlanner.Core.Domain;
 using WeddingPlanner.Infrastructure.Dto;
 using WeddingPlanner.Infrastructure.Models;
-using WeddingPlanner.Infrastructure.Models.Abstractions;
 using WeddingPlanner.Infrastructure.Repository.Abstractions;
 using Xunit;
 

@@ -5,11 +5,11 @@ using Moq;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks;
+using WeddingPlanner.Api.Models.Authentication;
 using WeddingPlanner.Api.Services;
 using WeddingPlanner.Core.Domain;
 using WeddingPlanner.Infrastructure.Dto;
-using WeddingPlanner.Infrastructure.Models.Abstractions;
-using WeddingPlanner.Infrastructure.Models.Authentication;
+using WeddingPlanner.Infrastructure.Models;
 using WeddingPlanner.Infrastructure.Services.Abstractions;
 using Xunit;
 

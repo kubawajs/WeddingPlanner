@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
+using WeddingPlanner.Api.Models;
+using WeddingPlanner.Api.Models.Abstractions;
 using WeddingPlanner.Api.Services.Abstractions;
 using WeddingPlanner.Core.Domain;
 using WeddingPlanner.Infrastructure.Dto;
-using WeddingPlanner.Infrastructure.Models;
-using WeddingPlanner.Infrastructure.Models.Abstractions;
 using WeddingPlanner.Infrastructure.Repository.Abstractions;
 
 namespace WeddingPlanner.Api.Services
